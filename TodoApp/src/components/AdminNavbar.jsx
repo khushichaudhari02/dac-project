@@ -22,7 +22,7 @@ function AdminNavbar() {
       <nav className='navbar navbar-expand-lg bg-primary' data-bs-theme='dark'>
         <div className='container-fluid'>
           <Link className='navbar-brand' to='/todo-item-list'>
-            TodoApp
+          ParcelPilot
           </Link>
 
           <button

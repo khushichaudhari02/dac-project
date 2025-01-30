@@ -24,6 +24,10 @@ import AdminProfile from './AdminPages/profile'
 import DeliveryDashboard from './DeliveryAgent/deliveries'
 import DeliveryHistory from './DeliveryAgent/history'
 import DeliveryProfile from './DeliveryAgent/profile'
+import Footer from './components/Footer'
+import AboutUs from './components/FooterContent/Aboutus'
+import PricingPage from './Pricing/pricing'
+import RegisterMain from './WarehousePages/RegisterMain'
 
 function App() {
   return (
@@ -60,9 +64,13 @@ function App() {
         <Route path='delivery/deliveries' element={<DeliveryDashboard/>} />
         <Route path='delivery/history' element={<DeliveryHistory />} />
         <Route path='delivery/profile' element={<DeliveryProfile />} />
-
+        <Route path='AboutUs' element={<AboutUs />} />
+        <Route path='pricing' element={<PricingPage />} />
+        <Route path='register' element={<RegisterMain/>} />
+       
+    
       </Routes>
-      <ToastContainer />
+      <Footer/>
     </div>
   )
 }

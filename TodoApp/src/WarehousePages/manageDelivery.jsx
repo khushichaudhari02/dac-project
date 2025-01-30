@@ -45,10 +45,10 @@ function ManageDeliveries() {
   };
 
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <WarehouseNavbar />
       <h2 className="heading">Manage Deliveries</h2>
-      <div className="container">
+      <div className="container flex-grow-1">
         <div className="row">
           <div className="col">
             <table className="table table-striped">
@@ -87,6 +87,7 @@ function ManageDeliveries() {
           </div>
         </div>
       </div>
+      
     </div>
   );
 }
