@@ -20,32 +20,30 @@ function Login() {
     } else {
       // call the login api and get the result
       const result = await login(email, password);
-      console.log(result);
-      // check if the result is successful
-      if (result['status'] === 'success') {
-        
-        // read the token from data
-        const user = result['data'];
 
-        //const token = data.token;
+      // check if the result is successful
+      if (result.status === 'success') {
+        // read the token from data
+        const data = result.data;
+        const token = data.token;
 
         // cache user token
-        //sessionStorage.setItem('token', token);
-        sessionStorage.setItem('userId',user.id)
+        sessionStorage.setItem('token', token);
+
         // decode the token to get the user role
-        //const decodedToken = jwt_decode(token);
-        const userRole = user.role; // Adjust this according to your token structure
-        
+        const decodedToken = jwt_decode(token);
+        const userRole = decodedToken.role; // Adjust this according to your token structure
+
         toast.success('Welcome to the application');
 
         // redirect based on user role
-        if (userRole=== 'ADMIN') {
+        if (userRole === 'admin') {
           navigate('/admin/profile');
-        } else if (userRole === 'CUSTOMER') {
+        } else if (userRole === 'customer') {
           navigate('/customer/profile');
-        } else if (userRole === 'DELIVERY_AGENT') {
+        } else if (userRole === 'deliveryAgent') {
           navigate('/delivery/profile');
-        } else if (userRole === 'WAREHOUSE_MANAGER') {
+        } else if (userRole === 'warehouseManager') {
           navigate('/warehouse/profile');
         } else {
           toast.error('Unknown user role');
