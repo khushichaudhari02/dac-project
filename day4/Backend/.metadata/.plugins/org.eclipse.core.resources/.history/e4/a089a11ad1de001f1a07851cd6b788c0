@@ -1,0 +1,25 @@
+package com.courier.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.courier.dto.LoginResponseDto;
+import com.courier.pojos.Users;
+import com.courier.services.UserService;
+
+@RestController
+@RequestMapping("/")
+public class UserController {
+	@Autowired
+	private UserService userService;
+	public LoginResponseDto login(@PathVariable String email,@PathVariable String password) {
+		Users user = userService.login(email, password);
+		if(user!=null) {
+			return new LoginResponseDto("success", user);
+		}
+		return new LoginResponseDto("failed", user);
+	}
+
+}

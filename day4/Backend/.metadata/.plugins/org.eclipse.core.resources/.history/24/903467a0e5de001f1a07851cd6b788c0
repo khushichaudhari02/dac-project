@@ -1,0 +1,41 @@
+package com.courier.pojos;
+
+@Entity
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="Routes")
+public class Routes {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long Id;
+	
+	private Date DispatchDate;
+	
+	private Date ArrivalDate;
+	
+	private String Status;
+	
+	
+	@OneToOne
+	@JoinColumn(name="order_id",nullable = false)
+	private Orders orderId;
+	
+	@OneToOne
+	@JoinColumn(name="From_Wid",nullable = false)
+	private Warehouse FromId;
+	
+	@OneToOne
+	@JoinColumn(name="To_Wid",nullable = false)
+	private Warehouse ToId;
+	
+	@OneToOne
+	@JoinColumn(name="Delivery_AgentId",nullable = false)
+	private User DeliveryAgentId;
+	
+	
+	
+
+}

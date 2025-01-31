@@ -1,0 +1,5 @@
+package com.courier.dto;
+
+public class LoginResponseDto {
+
+}

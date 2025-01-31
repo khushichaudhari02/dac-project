@@ -1,0 +1,11 @@
+package com.courier.repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.courier.pojos.Users;
+import com.courier.services.User;
+
+public interface UserRepository extends JpaRepository<Users, Long> {
+
+	Users findByEmailAndPassword();
+
+}

@@ -1,0 +1,5 @@
+package com.courier.response;
+
+public class ApiResponse {
+
+}
