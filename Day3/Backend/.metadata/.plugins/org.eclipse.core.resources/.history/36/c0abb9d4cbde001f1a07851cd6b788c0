@@ -1,7 +1,0 @@
-package com.courier.response;
-
-public class ApiResponse {
-	private String status;
-	private 
-
-}

@@ -1,7 +1,0 @@
-package com.courier.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface AddressRepository extends JpaRepository<T, ID>, JpaRepository<T, ID> {
-
-}
