@@ -4,6 +4,8 @@ import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,37 +29,41 @@ import lombok.ToString;
 public class Orders {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
+	private Long Id;
 	
 	@Column(name="Order_Date")
-	private Date OrderDate;
+	private Date orderDate;
 	
 	@Column(name="Delivery_Date")
-	private Date DeliveryDate;
+	private Date deliveryDate;
 	
-	private String Status;
 	
 	@Column(name="Tracking_id")
-	private String TrackingId;
+	private String trackingId;
 	
-	private double Price;
+	private double price;
 	
 	@Column(name="Receiver_Name")
-	private String ReceiverName;
+	private String receiverName;
 	
 	@Column(name="Contact_Number")
-	private String ContactNumber;
+	private String contactNumber;
 	
 	private double Weight;
 	@OneToOne
-	private Warehouse ToWarehouse;
+	private Warehouse toWarehouse;
 	@OneToOne
-	private Warehouse FromWarehouse;
+	private Warehouse fromWarehouse;
 	
 	@ManyToOne
 	@JoinColumn(name="sender_id",nullable=false)
-	private Users SenderId;
+	private Users senderId;
+	@ManyToOne
+	@JoinColumn(name="Delivery_AgentId",nullable = false)
+	private Users deliveryAgentId;
 	
+	@Enumerated(EnumType.STRING)
+	private OrderStatus status;
 	
 	
 	

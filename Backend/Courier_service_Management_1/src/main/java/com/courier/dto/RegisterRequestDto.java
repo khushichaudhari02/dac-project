@@ -17,7 +17,12 @@ public class RegisterRequestDto {
 	private String email;
 	private String password;
 	private String contactNumber;
-	private AddressDto address;
+	private String flatNo;
+	private String streetName;
+	private String landmark;
+	private String city;
+	private String state;
+	private int pincode;
 	
 
 }

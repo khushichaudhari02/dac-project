@@ -1,5 +1,7 @@
 package com.courier.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +36,7 @@ public class Users {
 	@Column(nullable = false,unique = true,length = 50)
 	private String email;
 	@Column(nullable = false)
+	@JsonIgnore
 	private String password;
 	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
 	private Address address;
