@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import CustomerNavbar from '../components/customerNavbar';
+import { useNavigate } from 'react-router-dom';
+
 
 const ParcelOrderForm = () => {
-  const [source, setSource] = useState('');
-  const [destination, setDestination] = useState('');
+  const navigate = useNavigate();
+  const [fromWarehouse, setFromWarehouse] = useState('');
+  const [toWarehouse, setToWarehouse] = useState('');
   const [receiverName, setReceiverName] = useState('');
   const [receiverContact, setReceiverContact] = useState('');
   const [weight, setWeight] = useState('');
   const [price, setPrice] = useState(0);
   const [senderId, setSenderId] = useState('');
+  const [trackingId, setTrackingId] = useState(null);
 
   const cities = ['Delhi', 'Mumbai', 'Pune', 'Hyderabad', 'Chennai'];
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    if (user) {
-      setSenderId(user.id);
+    const userData = sessionStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      console.log("User from session:", user);
+      if (user && user.id) {
+        setSenderId(user.id);
+      } else {
+        console.error("Error: User ID missing in session storage");
+      }
+    } else {
+      console.error("Error: No user found in session storage");
     }
   }, []);
+  
+
 
   const handleWeightChange = (e) => {
     const weightValue = e.target.value;
@@ -25,17 +39,43 @@ const ParcelOrderForm = () => {
     setPrice(weightValue * 100);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      senderId,
-      source,
-      destination,
-      receiverName,
-      receiverContact,
-      weight,
-      price
-    });
+    const orderData = {
+      senderId: senderId,
+      fromWarehouse,
+        toWarehouse,
+        receiverName,
+        contactNumber: receiverContact,
+        weight,
+        price,
+        status: 'PLACED',
+        orderDate: new Date().toISOString(),
+    };
+
+    try {
+        const response = await fetch("http://localhost:8080/customer/place-order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderData),
+        });
+
+        const result = await response.json().catch(() => null);
+if (response.ok && result) {
+    setTrackingId(result.trackingId);
+    alert(`Order placed successfully! Your tracking ID is ${result.trackingId}`);
+    navigate(`/customer/track-order?trackingId=${result.trackingId}`);
+} else {
+    alert(`Error placing order: ${result?.message || "Unknown error"}`);
+}
+
+    } catch (error) {
+        console.error('Error submitting order:', error);
+        alert('Error placing order. Please try again.');
+    }
+
+    console.log("Sending data:", orderData);
+
   };
 
   return (
@@ -50,7 +90,7 @@ const ParcelOrderForm = () => {
 
             <div className="mb-3">
               <label className="form-label">Source</label>
-              <select className="form-select" value={source} onChange={(e) => setSource(e.target.value)}>
+              <select className="form-select" value={fromWarehouse} onChange={(e) => setFromWarehouse(e.target.value)}>
                 <option value="">Select Source</option>
                 {cities.map((city, index) => (
                   <option key={index} value={city}>{city}</option>
@@ -60,9 +100,9 @@ const ParcelOrderForm = () => {
 
             <div className="mb-3">
               <label className="form-label">Destination</label>
-              <select className="form-select" value={destination} onChange={(e) => setDestination(e.target.value)}>
+              <select className="form-select" value={toWarehouse} onChange={(e) => setToWarehouse(e.target.value)}>
                 <option value="">Select Destination</option>
-                {cities.filter(city => city !== source).map((city, index) => (
+                {cities.filter(city => city !== fromWarehouse).map((city, index) => (
                   <option key={index} value={city}>{city}</option>
                 ))}
               </select>
@@ -90,6 +130,13 @@ const ParcelOrderForm = () => {
 
             <button type="submit" className="btn btn-primary w-100">Place Order</button>
           </form>
+
+          {trackingId && (
+              <div className="alert alert-success mt-3">
+                Order placed successfully! Your tracking ID is: <strong>{trackingId}</strong>
+              </div>
+            )}
+
         </div>
       </div>
     </div>

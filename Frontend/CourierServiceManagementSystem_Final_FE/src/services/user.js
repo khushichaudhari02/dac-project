@@ -97,4 +97,20 @@ export async function updateMyProfile(firstName, lastName, contactNumber, addres
   } catch (ex) {
     return { status: 'error', error: ex };
   }
+
 }
+
+export async function placeOrder(orderData) {
+  try {
+    const url = createUrl('customer/place-order');
+    const response = await axios.post(url, orderData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (ex) {
+    return { status: 'error', error: ex };
+  }
+}
+
