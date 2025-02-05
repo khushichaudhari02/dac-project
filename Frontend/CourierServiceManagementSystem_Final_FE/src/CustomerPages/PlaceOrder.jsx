@@ -14,7 +14,13 @@ const ParcelOrderForm = () => {
   const [senderId, setSenderId] = useState('');
   const [trackingId, setTrackingId] = useState(null);
 
-  const cities = ['Delhi', 'Mumbai', 'Pune', 'Hyderabad', 'Chennai'];
+  const warehouses = [
+  { id: 1, name: "Delhi" },
+  { id: 2, name: "Mumbai" },
+  { id: 3, name: "Pune" },
+  { id: 4, name: "Hyderabad" },
+  { id: 5, name: "Chennai" }
+];
 
   useEffect(() => {
     const userData = sessionStorage.getItem('user');
