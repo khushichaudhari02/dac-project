@@ -7,7 +7,7 @@ const TrackingPage = () => {
   const handleTrack = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://localhost:8080/track?trackingId=${trackingId}`);
+      const response = await fetch(`https://your-backend-api.com/track?trackingId=${trackingId}`);
       const data = await response.json();
       setTrackingData(data);
     } catch (error) {

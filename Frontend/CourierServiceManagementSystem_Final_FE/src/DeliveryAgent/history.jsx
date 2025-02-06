@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DeliveryAgentNavbar from '../components/DeliveryAgentNavbar';
+import { createUrl } from '../utils';
 
 function DeliveryHistory() {
-  const [deliveries, setDeliveries] = useState([]);
+  const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    // Fetch delivery history from backend
-    axios.get('https://example.com/api/deliveries')
-      .then(response => {
-        setDeliveries(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching deliveries:', error);
-      });
-  }, []);
+  const onLoad = async () => {
+    const id = sessionStorage.getItem("userId");
+      const url = createUrl(`delivery/history/20`);
+        const result = (await axios.get(url)).data;
+        setOrders(result);
+  };
+  
+    useEffect(() => {
+      onLoad();
+    }, []);
+  
+
 
   return (
     <div>
@@ -31,12 +34,12 @@ function DeliveryHistory() {
           </tr>
         </thead>
         <tbody>
-          {deliveries.map(delivery => (
-            <tr key={delivery.id}>
-              <td>{delivery.senderName}</td>
-              <td>{delivery.receiverName}</td>
-              <td>{delivery.receiverContactNumber}</td>
-              <td>{delivery.receiverAddress}</td>
+          {orders.map(order => (
+            <tr key={order.trackingId}>
+              <td>{order.senderId.firstName}</td>
+              <td>{order.receiverName}</td>
+              <td>{order.contactNumber}</td>
+              <td>{order.toWarehouse.location.city}</td>
             </tr>
           ))}
         </tbody>
