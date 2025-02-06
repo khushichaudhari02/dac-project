@@ -1,0 +1,92 @@
+package com.courier.pojos;
+
+import java.util.*;
+
+import java.util.*;
+
+class Graph {
+    private Map<String, Map<String, Integer>> graph;
+
+    public Graph() {
+        this.graph = new HashMap<>();
+        initializeGraph();
+    }
+
+    private void initializeGraph() {
+        graph.put("A", new HashMap<>(Map.of("B", 1, "C", 4)));
+        graph.put("B", new HashMap<>(Map.of("A", 1, "C", 2, "D", 5)));
+        graph.put("C", new HashMap<>(Map.of("A", 4, "B", 2, "D", 1)));
+        graph.put("D", new HashMap<>(Map.of("B", 5, "C", 1)));
+    }
+    
+    public Map<String, Map<String, Integer>> getGraph() {
+        return graph;
+    }
+    
+    static class Node implements Comparable<Node> {
+        String vertex;
+        int distance;
+        Node(String vertex, int distance) {
+            this.vertex = vertex;
+            this.distance = distance;
+        }
+        public int compareTo(Node other) {
+            return Integer.compare(this.distance, other.distance);
+        }
+    }
+    
+    public Map<String, Object> dijkstra(String start, String end) {
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        Map<String, Integer> distances = new HashMap<>();
+        Map<String, String> previous = new HashMap<>();
+        
+        for (String node : graph.keySet()) {
+            distances.put(node, Integer.MAX_VALUE);
+            previous.put(node, null);
+        }
+        distances.put(start, 0);
+        pq.add(new Node(start, 0));
+        
+        while (!pq.isEmpty()) {
+            Node current = pq.poll();
+            
+            if (current.vertex.equals(end)) break;
+            
+            if (current.distance > distances.get(current.vertex)) {
+                continue;
+            }
+            
+            for (Map.Entry<String, Integer> neighbor : graph.get(current.vertex).entrySet()) {
+                int newDist = current.distance + neighbor.getValue();
+                if (newDist < distances.get(neighbor.getKey())) {
+                    distances.put(neighbor.getKey(), newDist);
+                    previous.put(neighbor.getKey(), current.vertex);
+                    pq.add(new Node(neighbor.getKey(), newDist));
+                }
+            }
+        }
+        
+        List<String> path = reconstructPath(previous, start, end);
+        Map<String, Object> result = new HashMap<>();
+        result.put("distance", distances.get(end));
+        result.put("path", path);
+        return result;
+    }
+    
+    private List<String> reconstructPath(Map<String, String> previous, String start, String end) {
+        List<String> path = new ArrayList<>();
+        for (String at = end; at != null; at = previous.get(at)) {
+            path.add(at);
+        }
+        Collections.reverse(path);
+        return path.get(0).equals(start) ? path : Collections.emptyList();
+    }
+    
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+        String startNode = "A", endNode = "D";
+        Map<String, Object> result = graph.dijkstra(startNode, endNode);
+        System.out.println("Shortest distance from " + startNode + " to " + endNode + ": " + result.get("distance"));
+        System.out.println("Shortest path: " + result.get("path"));
+    }
+}

@@ -50,16 +50,16 @@ public class Orders {
 	private String contactNumber;
 	
 	private double Weight;
-	@OneToOne
+	@ManyToOne
 	private Warehouse toWarehouse;
-	@OneToOne
+	@ManyToOne
 	private Warehouse fromWarehouse;
 	
 	@ManyToOne
 	@JoinColumn(name="sender_id",nullable=false)
 	private Users senderId;
 	@ManyToOne
-	@JoinColumn(name="Delivery_AgentId",nullable = false)
+	@JoinColumn(name="Delivery_AgentId")
 	private Users deliveryAgentId;
 	
 	@Enumerated(EnumType.STRING)

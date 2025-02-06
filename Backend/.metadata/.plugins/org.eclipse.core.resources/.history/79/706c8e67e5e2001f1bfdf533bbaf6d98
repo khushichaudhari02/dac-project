@@ -1,0 +1,13 @@
+package com.courier.dto;
+
+public class AllWarehouseDto {
+	private Long id;
+	private String flatNo;
+	private String streetName;
+	private String landmark;
+	private String city;
+	private String state;
+	private int pincode;
+	private UserDto manager;
+
+}

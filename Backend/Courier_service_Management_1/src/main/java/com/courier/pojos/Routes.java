@@ -2,11 +2,14 @@ package com.courier.pojos;
 
 import java.util.Date;
 
+import org.hibernate.annotations.ManyToAny;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -34,15 +37,15 @@ public class Routes {
 	private String Status;
 	
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="order_id",nullable = false)
 	private Orders orderId;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="From_Wid",nullable = false)
 	private Warehouse FromId;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="To_Wid",nullable = false)
 	private Warehouse ToId;
 	

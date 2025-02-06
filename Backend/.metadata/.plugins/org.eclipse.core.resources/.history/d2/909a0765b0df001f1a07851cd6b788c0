@@ -1,0 +1,5 @@
+package com.courier.services;
+
+public class WarehouseServices {
+
+}
