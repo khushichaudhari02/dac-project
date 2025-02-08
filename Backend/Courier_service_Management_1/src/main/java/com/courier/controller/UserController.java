@@ -15,7 +15,6 @@ import com.courier.dto.RegisterRequestDto;
 import com.courier.dto.RegisterResponseDto;
 import com.courier.pojos.Users;
 import com.courier.services.UserService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

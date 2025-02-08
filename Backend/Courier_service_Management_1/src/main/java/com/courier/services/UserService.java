@@ -40,7 +40,7 @@ public class UserService {
 		persistantUser.setContactNumber(user.getContactNumber());
 		persistantUser.setFirstName(user.getFirstName());
 		persistantUser.setLastName(user.getLastName());
-		if (user.getAddress() == null) {
+		if (user.getAddress().getId() == null) {
 			Address address = new Address();
 			address.setCity(user.getAddress().getCity());
 			address.setFlatNo(user.getAddress().getFlatNo());
@@ -48,6 +48,10 @@ public class UserService {
 			address.setPincode(user.getAddress().getPincode());
 			address.setStreetName(user.getAddress().getStreetName());
 			address.setState(user.getAddress().getState());
+		}
+		else {
+			persistantUser.setAddress(user.getAddress());
+			
 		}
 		userRepository.save(persistantUser);
 		return new LoginResponseDto("success", persistantUser);

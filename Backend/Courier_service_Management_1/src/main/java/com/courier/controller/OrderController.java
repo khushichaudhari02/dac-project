@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +35,11 @@ public class OrderController {
 		return ResponseEntity.ok(orderService.getByStatusNotAndAgentId(id));
 		
 	}
-	
+
+	 @PutMapping("/update-status/{orderId}")
+	    public ResponseEntity<?> updateOrderStatus(@PathVariable Long orderId) {
+	        orderService.updateOrderStatus(orderId);
+	        return ResponseEntity.ok().build();
+	    }
 
 }
