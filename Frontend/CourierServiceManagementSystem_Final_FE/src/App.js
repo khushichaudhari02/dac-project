@@ -25,14 +25,11 @@ import AllOrders from './AdminPages/AllOrders'
 import AdminTrackParcle from './AdminPages/tracking'
 import AdminCalPrice from './AdminPages/price'
 import AllWareHouses from './AdminPages/AllWareHouses'
-import AdminDashboard from './AdminPages/AdminDashboard'
 import AdminProfile from './AdminPages/profile'
 import DeliveryDashboard from './DeliveryAgent/deliveries'
 import DeliveryHistory from './DeliveryAgent/history'
 import DeliveryProfile from './DeliveryAgent/profile'
 import UserRegister from './WarehousePages/UserRegistration'
-import CustomerHistory from './CustomerPages/history'
-import CustomerDashboard from './CustomerPages/CustomerDashboard'
 
 function App() {
   return (
@@ -59,15 +56,12 @@ function App() {
         <Route path='warehouse/manage-delivery' element={<ManageDeliveries />} />
 
         {/* Customer routes  */}
-        <Route path='customer/home' element={<CustomerDashboard />} />
         <Route path='customer/place-order' element={<ParcelOrderForm />} />
         <Route path='customer/track-order' element={<CustomerTrackParcle />} />
         <Route path='customer/price-cal' element={<CustomerCalPrice />} />
         <Route path='customer/profile' element={<CustomerProfile />} />
-        <Route path='customer/history' element={<CustomerHistory />} />
 
         {/* Admin Routes */}
-        <Route path='admin/home' element={<AdminDashboard />} />
         <Route path='admin/orders' element={<AllOrders />} />
         <Route path='admin/warehouses' element={<AllWareHouses />} />
         <Route path='admin/track-order' element={<AdminTrackParcle />} />

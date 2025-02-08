@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { login } from '../services/user';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-// import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 
 function Login() {
   const [email, setEmail] = useState('');

@@ -1,43 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import CustomerNavbar from '../components/customerNavbar';
-import { useNavigate } from 'react-router-dom';
-
 
 const ParcelOrderForm = () => {
-  const navigate = useNavigate();
-  const [fromWarehouse, setFromWarehouse] = useState('');
-  const [toWarehouse, setToWarehouse] = useState('');
+  const [source, setSource] = useState('');
+  const [destination, setDestination] = useState('');
   const [receiverName, setReceiverName] = useState('');
   const [receiverContact, setReceiverContact] = useState('');
   const [weight, setWeight] = useState('');
   const [price, setPrice] = useState(0);
   const [senderId, setSenderId] = useState('');
-  const [trackingId, setTrackingId] = useState(null);
 
-  const warehouses = [
-  { id: 1, name: "Delhi" },
-  { id: 2, name: "Mumbai" },
-  { id: 3, name: "Pune" },
-  { id: 4, name: "Hyderabad" },
-  { id: 5, name: "Chennai" }
-];
+  const cities = ['Delhi', 'Mumbai', 'Pune', 'Hyderabad', 'Chennai'];
 
   useEffect(() => {
-    const userData = sessionStorage.getItem('user');
-    if (userData) {
-      const user = JSON.parse(userData);
-      console.log("User from session:", user);
-      if (user && user.id) {
-        setSenderId(user.id);
-      } else {
-        console.error("Error: User ID missing in session storage");
-      }
-    } else {
-      console.error("Error: No user found in session storage");
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (user) {
+      setSenderId(user.id);
     }
   }, []);
-  
-
 
   const handleWeightChange = (e) => {
     const weightValue = e.target.value;
@@ -45,43 +25,17 @@ const ParcelOrderForm = () => {
     setPrice(weightValue * 100);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const orderData = {
-      senderId: senderId,
-      fromWarehouse,
-        toWarehouse,
-        receiverName,
-        contactNumber: receiverContact,
-        weight,
-        price,
-        status: 'PLACED',
-        orderDate: new Date().toISOString(),
-    };
-
-    try {
-        const response = await fetch("http://localhost:8080/customer/place-order", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(orderData),
-        });
-
-        const result = await response.json().catch(() => null);
-if (response.ok && result) {
-    setTrackingId(result.trackingId);
-    alert(`Order placed successfully! Your tracking ID is ${result.trackingId}`);
-    navigate(`/customer/track-order?trackingId=${result.trackingId}`);
-} else {
-    alert(`Error placing order: ${result?.message || "Unknown error"}`);
-}
-
-    } catch (error) {
-        console.error('Error submitting order:', error);
-        alert('Error placing order. Please try again.');
-    }
-
-    console.log("Sending data:", orderData);
-
+    console.log({
+      senderId,
+      source,
+      destination,
+      receiverName,
+      receiverContact,
+      weight,
+      price
+    });
   };
 
   return (
@@ -96,7 +50,7 @@ if (response.ok && result) {
 
             <div className="mb-3">
               <label className="form-label">Source</label>
-              <select className="form-select" value={fromWarehouse} onChange={(e) => setFromWarehouse(e.target.value)}>
+              <select className="form-select" value={source} onChange={(e) => setSource(e.target.value)}>
                 <option value="">Select Source</option>
                 {cities.map((city, index) => (
                   <option key={index} value={city}>{city}</option>
@@ -106,9 +60,9 @@ if (response.ok && result) {
 
             <div className="mb-3">
               <label className="form-label">Destination</label>
-              <select className="form-select" value={toWarehouse} onChange={(e) => setToWarehouse(e.target.value)}>
+              <select className="form-select" value={destination} onChange={(e) => setDestination(e.target.value)}>
                 <option value="">Select Destination</option>
-                {cities.filter(city => city !== fromWarehouse).map((city, index) => (
+                {cities.filter(city => city !== source).map((city, index) => (
                   <option key={index} value={city}>{city}</option>
                 ))}
               </select>
@@ -136,13 +90,6 @@ if (response.ok && result) {
 
             <button type="submit" className="btn btn-primary w-100">Place Order</button>
           </form>
-
-          {trackingId && (
-              <div className="alert alert-success mt-3">
-                Order placed successfully! Your tracking ID is: <strong>{trackingId}</strong>
-              </div>
-            )}
-
         </div>
       </div>
     </div>
