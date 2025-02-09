@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { register } from '../services/user';
+import { register, registerDelivery } from '../services/user';
 import { Link, useNavigate } from 'react-router-dom';
-import WarehouseNavbar from '../components/warehouseNavbar';
+import WarehouseNavbar from '../components/NavBars/WarehouseNavbar';
 
-function Register() {
+function RegisterDeliveryAgent() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -20,7 +20,7 @@ function Register() {
     pincode: ''
   });
 
-  const { flatNo, streetName, landmark, city, state, pincode } = address;
+  // const { flatNo, streetName, landmark, city, state, pincode } = address;
 
   const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ function Register() {
     } else if (password !== confirmPassword) {
       toast.warning('Passwords do not match');
     } else {
-      const result = await register(firstName, lastName, email, phone, password, address);
+      const result = await registerDelivery(firstName, lastName, email, phone, password, address);
       if (result.status === 'success') {
         toast.success('Successfully registered user');
         navigate('/login');
@@ -229,4 +229,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default RegisterDeliveryAgent;

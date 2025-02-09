@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Button, Container } from 'react-bootstrap';
-import AdminNavbar from '../components/AdminNavbar';
+import AdminNavbar from '../components/NavBars/AdminNavbar';
+
+import { createUrl } from '../utils';
 
 const AllOrders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     // Fetch the data from the API when the component mounts
-    axios.get('YOUR_API_ENDPOINT')
-      .then(response => {
-        setOrders(response.data);
-      })
-      .catch(error => {
-        console.error('There was an error fetching the data!', error);
-      });
-  }, []);
+    const url = createUrl('admin/orders');
+    const token = sessionStorage['token']; 
+
+    axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type':'application/json'
+      }
+    })
+    .then(response => {
+      setOrders(response.data);
+    })
+    .catch(error => {
+      console.error('There was an error fetching the data!', error);
+    });
+}, []);
 
   const handleViewDetails = (orderId) => {
     console.log(`View details for order ID ${orderId}`);
@@ -26,7 +36,8 @@ const AllOrders = () => {
     <div>
       <AdminNavbar/>
     <Container className="mt-4">
-      <Table bordered hover className="text-center">
+    <div className="table-responsive">
+      <table className="table table-bordered table-hover">
         <thead className="thead-dark">
           <tr>
             <th>Order ID</th>
@@ -43,8 +54,8 @@ const AllOrders = () => {
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.orderId}>
-              <td>{order.orderId}</td>
+            <tr key={order.id}>
+              <td>{order.id}</td>
               <td>{order.trackingId}</td>
               <td>{order.orderDate}</td>
               <td>{order.deliveryDate}</td>
@@ -59,7 +70,8 @@ const AllOrders = () => {
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
+      </div>
     </Container>
     </div>
   );

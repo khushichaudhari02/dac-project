@@ -1,5 +1,5 @@
 
-import CustomerNavbar from '../components/customerNavbar';
+import CustomerNavbar from '../components/NavBars/customerNavbar';
 
 import PricingPage from '../Pricing/pricing';
 const CustomerCalPrice = () => {

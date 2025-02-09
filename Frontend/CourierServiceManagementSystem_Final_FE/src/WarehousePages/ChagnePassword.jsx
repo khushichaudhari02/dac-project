@@ -8,16 +8,16 @@ function ChangePassword() {
   const [confirmPassword, setConfirmPassword] = useState('')
 
   const onChangePassword = async () => {
-    if (password.length == 0) {
+    if (password.length === 0) {
       toast.warning('Please enter password')
-    } else if (confirmPassword.length == 0) {
+    } else if (confirmPassword.length === 0) {
       toast.warning('Please confirm password')
-    } else if (password != confirmPassword) {
+    } else if (password !== confirmPassword) {
       toast.warning('Password does not match')
     } else {
       // call register function to consume register API
       const result = await updatePassword(password)
-      if (result['status'] == 'success') {
+      if (result['status'] === 'success') {
         toast.success('Successfully changed password')
       } else {
         toast.error(result['error'])

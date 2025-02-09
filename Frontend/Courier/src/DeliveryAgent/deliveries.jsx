@@ -8,8 +8,14 @@ function DeliveryDashboard() {
 
   const onLoad = async () => {
     const id = sessionStorage.getItem("userId");
-    const url = createUrl(`delivery/deliveries/1`);
-    const result = (await axios.get(url)).data;
+    const url = createUrl(`delivery/deliveries/${id}`);
+    const token = sessionStorage['token']; 
+    const result = (await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })).data;
     setOrders(result);
   };
 
@@ -19,7 +25,14 @@ function DeliveryDashboard() {
 
   const handleDeliver = async (orderId) => {
     const url = createUrl(`update-status/${orderId}`);
-    await axios.put(url, { status: 'Delivered' });
+    const token = sessionStorage['token'];
+    await axios.put(url, { status: 'Delivered' }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    // Refresh the orders list to reflect the updated status
     onLoad();
   };
 
@@ -46,7 +59,7 @@ function DeliveryDashboard() {
                 <td>{order.contactNumber}</td>
                 <td>{order.toWarehouse.location.city}</td>
                 <td>
-                <button
+                  <button
                     className="btn btn-success"
                     onClick={() => handleDeliver(order.id)}
                   >Deliver</button>

@@ -1,6 +1,6 @@
 
 import Profile from '../components/Profile';
-import CustomerNavbar from '../components/customerNavbar';
+import CustomerNavbar from '../components/NavBars/customerNavbar';
 function CustomerProfile() {
 
 

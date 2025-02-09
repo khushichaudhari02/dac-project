@@ -8,9 +8,15 @@ function DeliveryHistory() {
 
   const onLoad = async () => {
     const id = sessionStorage.getItem("userId");
-      const url = createUrl(`delivery/history/20`);
-        const result = (await axios.get(url)).data;
-        setOrders(result);
+    const url = createUrl(`delivery/history/${id}`);
+    const token = sessionStorage['token']; 
+    const result = (await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })).data;
+    setOrders(result);
   };
   
     useEffect(() => {

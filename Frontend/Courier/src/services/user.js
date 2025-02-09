@@ -14,7 +14,12 @@ export async function login(email, password) {
     }
 
     // call the API
-    const response = await axios.post(url, body)
+    const response = await axios.post(url, body, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
     // get the response body
     return response.data
@@ -26,6 +31,23 @@ export async function login(email, password) {
 export async function register(firstName, lastName, email, contactNumber, password) {
   try {
     const url = createUrl('register')
+    const body = {
+      firstName,
+      lastName,
+      email,
+      contactNumber,
+      password,
+    }
+    const response = await axios.post(url, body)
+    return response.data
+  } catch (ex) {
+    return { status: 'error', error: ex }
+  }
+}
+
+export async function registerDelivery(firstName, lastName, email, contactNumber, password) {
+  try {
+    const url = createUrl('delivery/register')
     const body = {
       firstName,
       lastName,
@@ -57,16 +79,18 @@ export async function updatePassword(password) {
 
 export async function getMyProfile() {
   try {
-    //const url = createUrl('user/profile')
-    // const token = sessionStorage['token']
-    // const response = await axios.get(url, {
-    //   headers: {
-    //     token,
-    //   },
-    // })
     const id = sessionStorage['userId']
     const url = createUrl('profile/'+id)
-    const response = await axios.get(url)
+    const token = sessionStorage['token']
+    const response = await axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+      },
+    })
+  
+    
+   
 
     return response.data
   } catch (ex) {
