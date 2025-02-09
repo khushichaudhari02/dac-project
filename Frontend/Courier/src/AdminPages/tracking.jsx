@@ -1,5 +1,5 @@
 import TrackingPage from '../Tracking/track';
-import AdminNavbar from '../components/AdminNavbar';
+import AdminNavbar from '../components/NavBars/AdminNavbar';
 const AdminTrackParcle = () => {
   
 
@@ -7,6 +7,7 @@ const AdminTrackParcle = () => {
     <div>
         <AdminNavbar/>
         <TrackingPage/>
+        
     </div>
    
   );

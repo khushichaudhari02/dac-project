@@ -1,17 +1,11 @@
-import Login from './WarehousePages/Login'
-import Register from './WarehousePages/Register'
-
-import { ToastContainer } from 'react-toastify'
+import Login from './components/Login'
+import Register from './components/Register'
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import TodoItemList from './WarehousePages/TodoItemList'
 import { Route, Routes } from 'react-router-dom'
-import MyItems from './WarehousePages/MyItems'
+import ContactUs from './components/FooterContent/ContactUs'
 import Profile from './WarehousePages/Profile'
-import AddItem from './WarehousePages/AddItem'
-import ChangePassword from './WarehousePages/ChagnePassword'
-import WishList from './WarehousePages/WishList'
-import DeliveryAgents from './WarehousePages/DeliveryAgent'
-import ManageDeliveries from './WarehousePages/manageDelivery'
+import ManageDeliveries from './WarehousePages/ManageDelivery'
 import ParcelOrderForm from './CustomerPages/PlaceOrder'
 import CustomerCalPrice from './CustomerPages/price'
 import CustomerTrackParcle from './CustomerPages/tracking'
@@ -24,24 +18,38 @@ import AdminProfile from './AdminPages/profile'
 import DeliveryDashboard from './DeliveryAgent/deliveries'
 import DeliveryHistory from './DeliveryAgent/history'
 import DeliveryProfile from './DeliveryAgent/profile'
-import UserRegister from './WarehousePages/UserRegistration'
+import Footer from './components/Footer'
+import AboutUs from './components/FooterContent/Aboutus'
+import PricingPage from './Pricing/pricing'
+import TrackingPage from './CustomerPages/tracking'
+import AdminDashboard from './AdminPages/AdminDashboard'
+import CustomerDashboard from './CustomerPages/CustomerDashboard'
+// import CardComponent from './components/commonComponent/MainCardComponent'
+
+import EditWarehouse from './AdminPages/EditWarehouse';
+import RegisterDeliveryAgent from './WarehousePages/Register';
+import Home from './components/Home';
+import DeliveryAgents from './WarehousePages/DeliveryAgents';
 
 function App() {
+  
+
   return (
     <div className='container-fluid'>
       <Routes>
+       
+        <Route path='/' element={<Home />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='login' element={<Login/>} />
+        <Route path='ContactUs' element={<ContactUs />} />
+        <Route path='pricing' element={<PricingPage />} />
+        <Route path='register' element={<Register/>} />
+        <Route path="/track" element={<TrackingPage />} />
+
         {/* Warehouse Routes */}
-        <Route path='/' element={<Login />} />
-        <Route path='login' element={<Login />} />
-        <Route path='/register' element={<UserRegister />} />
-        <Route path='warehouse/register' element={<Register />} />
-        <Route path='todo-item-list' element={<TodoItemList />} />
-        <Route path='my-items' element={<MyItems />} />
+        <Route path='warehouse/register' element={<RegisterDeliveryAgent />} />
         <Route path='warehouse/profile' element={<Profile />} />
-        <Route path='add-item' element={<AddItem />} />
-        <Route path='change-password' element={<ChangePassword />} />
-        <Route path='wishlist' element={<WishList />} />
-        <Route path='warehouse/delivery-agent' element={<DeliveryAgents />} />
+        <Route path='warehouse/delivery-agent' element={<DeliveryAgents/>} />
         <Route path='warehouse/manage-delivery' element={<ManageDeliveries />} />
 
         {/* Customer routes  */}
@@ -49,23 +57,39 @@ function App() {
         <Route path='customer/track-order' element={<CustomerTrackParcle />} />
         <Route path='customer/price-cal' element={<CustomerCalPrice />} />
         <Route path='customer/profile' element={<CustomerProfile />} />
+        <Route path='customer/home' element={<CustomerDashboard />} />
 
         {/* Admin Routes */}
+        <Route path='admin/home' element={<AdminDashboard />} />
         <Route path='admin/orders' element={<AllOrders />} />
         <Route path='admin/warehouses' element={<AllWareHouses />} />
         <Route path='admin/track-order' element={<AdminTrackParcle />} />
         <Route path='admin/price-cal' element={<AdminCalPrice />} />
         <Route path='admin/profile' element={<AdminProfile />} />
+        <Route path='admin/editwarehouse/:id' element={<EditWarehouse />} />
+
 
 
         {/* Delivery Agent */}
         <Route path='delivery/deliveries' element={<DeliveryDashboard/>} />
         <Route path='delivery/history' element={<DeliveryHistory />} />
         <Route path='delivery/profile' element={<DeliveryProfile />} />
+        <Route path='AboutUs' element={<AboutUs />} />
 
+       
+
+
+        
+    
       </Routes>
       <ToastContainer />
+      <div>
+      <Footer/>
+
     </div>
+    </div>
+    
+    
   )
 }
 

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import CustomerNavbar from '../components/customerNavbar';
+import CustomerNavbar from '../components/NavBars/customerNavbar';
+import axios from 'axios';
+import { createUrl } from '../utils';
 
 const ParcelOrderForm = () => {
   const [source, setSource] = useState('');
@@ -19,10 +21,16 @@ const ParcelOrderForm = () => {
     }
   }, []);
 
-  const handleWeightChange = (e) => {
+  const handleWeightChange = async (e) => {
     const weightValue = e.target.value;
     setWeight(weightValue);
-    setPrice(weightValue * 100);
+    const url = createUrl(`price/${source}/${destination}`)
+      const response = await axios.get(url);
+      const distance = response.data;
+      const pricePerKm = 5; // Example price per km
+      const pricePerKg = 10; // Example price per kg
+      const calculatedPrice = (distance * pricePerKm) + (weight * pricePerKg);
+      setPrice(calculatedPrice.toFixed(2));
   };
 
   const handleSubmit = (e) => {

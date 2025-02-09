@@ -1,5 +1,5 @@
 
-import AdminNavbar from "../components/AdminNavbar";
+import AdminNavbar from "../components/NavBars/AdminNavbar";
 import Profile from "../components/Profile";
 function AdminProfile() {
 

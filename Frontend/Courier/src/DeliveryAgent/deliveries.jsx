@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import DeliveryAgentNavbar from '../components/DeliveryAgentNavbar';
+import DeliveryAgentNavbar from '../components/NavBars/DeliveryAgentNavbar';
+
 function DeliveryDashboard() {
   const [orders, setOrders] = useState([]);
 
@@ -15,7 +16,7 @@ function DeliveryDashboard() {
       });
   }, []);
 
-  const markAsDelivered = () => {
+  const markAsDelivered = (orderId) => {
     axios.post(`https://example.com/api/orders/${orderId}/deliver`)
       .then(response => {
         if (response.data.success) {

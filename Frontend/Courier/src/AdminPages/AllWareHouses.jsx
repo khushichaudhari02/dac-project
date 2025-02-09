@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AdminNavbar from '../components/AdminNavbar';
+import AdminNavbar from '../components/NavBars/AdminNavbar';
+import { createUrl } from '../utils';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const AllWareHouses = () => {
   const [warehouses, setWarehouses] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+
     // Fetch the data from the API when the component mounts
-    axios.get('YOUR_API_ENDPOINT')
+    const url=createUrl('admin/warehouses')
+    axios.get(url)
       .then(response => {
         setWarehouses(response.data);
       })
@@ -17,8 +22,7 @@ const AllWareHouses = () => {
   }, []);
 
   const handleEdit = (id) => {
-    console.log(`Edit warehouse with ID ${id}`);
-    // Add your edit logic here
+    navigate(`/admin/editwarehouse/${id}`)
   };
 
   const handleDelete = (id) => {
@@ -35,6 +39,7 @@ const AllWareHouses = () => {
           <thead className="thead-dark">
             <tr>
               <th>Warehouse ID</th>
+              <th>Warehouse Manager</th>
               <th>Warehouse Location</th>
               <th>Actions</th>
             </tr>
@@ -43,10 +48,11 @@ const AllWareHouses = () => {
             {warehouses.map((warehouse) => (
               <tr key={warehouse.id}>
                 <td>{warehouse.id}</td>
-                <td>{warehouse.location}</td>
+                <td>{warehouse.managerName}</td>
+                <td>{warehouse.location.flatNo},{warehouse.location.streetName},{warehouse.location.landmark},{warehouse.location.city},{warehouse.location.state},{warehouse.location.pincode}</td>
                 <td>
                   <button className="btn btn-warning mr-2" onClick={() => handleEdit(warehouse.id)}>Edit</button>
-                  <button className="btn btn-danger" onClick={() => handleDelete(warehouse.id)}>Delete</button>
+                  <button className="btn ms-2 btn-danger" onClick={() => handleDelete(warehouse.id)}>Delete</button>
                 </td>
               </tr>
             ))}
@@ -59,3 +65,7 @@ const AllWareHouses = () => {
 };
 
 export default AllWareHouses;
+
+
+
+

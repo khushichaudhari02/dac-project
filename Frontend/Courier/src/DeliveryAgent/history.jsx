@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import DeliveryAgentNavbar from '../components/DeliveryAgentNavbar';
+import DeliveryAgentNavbar from '../components/NavBars/DeliveryAgentNavbar';
 
 function DeliveryHistory() {
   const [deliveries, setDeliveries] = useState([]);
