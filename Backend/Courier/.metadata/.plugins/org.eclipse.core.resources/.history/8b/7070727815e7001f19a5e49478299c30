@@ -1,0 +1,5 @@
+package com.courier.custom_exception;
+
+public class ConflictException {
+
+}
