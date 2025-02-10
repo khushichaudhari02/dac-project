@@ -121,10 +121,42 @@ export async function placeOrder(orderData) {
     });
 
     console.log("Order placed response:", response.data);
+
+    if (response.data.status === "success") {
+      console.log("Order ID from API:", response.data.orderId); // Debugging
+
+      if (response.data.orderId) {
+        sessionStorage.setItem("orderId", response.data.orderId); // ✅ Store orderId properly
+        console.log("Stored orderId in sessionStorage:", sessionStorage.getItem("orderId")); // Debugging
+      } else {
+        console.error("API response is missing orderId");
+      }
+    }
     return response.data;
   } catch (ex) {
     console.error("Place order error:", ex.response?.data?.message || ex.message);
     return { status: 'error', error: ex.response?.data?.message || ex.message };
   }
 }
+
+export async function processPayment(orderId, paymentData) {
+  try {
+    if (!orderId) {
+      throw new Error("Order ID is missing.");
+    }
+    const url = createUrl(`orders/confirm_order/${orderId}`);
+      console.log("Sending payment data:", paymentData);
+
+      const response = await axios.patch(url, paymentData, {
+          headers: { "Content-Type": "application/json" },
+      });
+
+      console.log("Payment response:", response.data);
+      return response.data;
+  } catch (ex) {
+      console.error("Payment error:", ex.response?.data?.message || ex.message);
+      return { status: "error", error: ex.response?.data?.message || ex.message };
+  }
+}
+
 

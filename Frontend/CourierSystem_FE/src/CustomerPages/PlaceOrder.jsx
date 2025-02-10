@@ -3,7 +3,6 @@ import CustomerNavbar from '../components/customerNavbar';
 import { useNavigate } from 'react-router-dom';
 import { placeOrder } from '../services/user';
 //for auto generating trackingId
-import { v4 as uuidv4 } from 'uuid';
 
 
 const ParcelOrderForm = () => {
@@ -11,6 +10,7 @@ const ParcelOrderForm = () => {
   const [fromWarehouseId, setFromWarehouseId] = useState('');
   const [toWarehouseId, setToWarehouseId] = useState('');
   const [receiverName, setReceiverName] = useState('');
+  const [receiverAddress, setReceiverAddress] = useState('');  
   const [receiverContact, setReceiverContact] = useState('');
   const [weight, setWeight] = useState('');
   const [price, setPrice] = useState(0);
@@ -42,55 +42,6 @@ const ParcelOrderForm = () => {
     setPrice(weightValue * 100);
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!fromWarehouseId || !toWarehouseId || !receiverName || !receiverContact || !weight) {
-  //     alert("Please fill all fields.");
-  //     return;
-  // }
-  
-  //   const id = sessionStorage.getItem("userId");
-  //   if (!id) {
-  //     alert("Error: User not logged in.");
-  //     return;
-  //   }
-  
-  //   const orderData = {
-  //     senderId: id,
-  //     fromWarehouseId,
-  //       toWarehouseId,
-  //       receiverName,
-  //       contactNumber: receiverContact,
-  //       weight,
-  //       price,
-  //       status: 'DELIVERED',
-  //       orderDate: new Date().toISOString(),
-  //       // trackingId: uuidv4(), //AUTO GENERATING TRACKINGiD
-       
-  //   };
-
-  //   console.log("Sending order data:", orderData);
-
-  //   try {
-  //     const response = await placeOrder(orderData);
-  //     console.log("API Response:", response);
-  
-  //     if (response.status === 'success') {
-  //       setTrackingId(response.trackingId);
-  //       alert(`Order placed successfully! Your tracking ID is ${response.trackingId}`);
-  //       navigate(`/customer/track-order?trackingId=${response.trackingId}`);
-  //     } else {
-  //       alert(`Error placing order: ${response.error || 'Unknown error'}`);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error submitting order:', error);
-     
-  //   }
-
-  //   console.log("Sending data:", orderData);
-
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fromWarehouseId || !toWarehouseId || !receiverName || !receiverContact || !weight) {
@@ -109,32 +60,38 @@ const ParcelOrderForm = () => {
       fromWarehouseId,
       toWarehouseId,
       receiverName,
+      receiverAddress,
       contactNumber: receiverContact,
       weight,
       price,
       status: 'DELIVERED',
       orderDate: new Date().toISOString(),
-      // trackingId: uuidv4(), //AUTO GENERATING TRACKINGiD
     };
   
-    console.log("Sending order data:", orderData);
   
     try {
       const response = await placeOrder(orderData);
-      console.log("API Response:", response);
+     
   
       // Log response status
       console.log("Response Status:", response.responseStatus);
   
-      if (String(response.responseStatus) === 'success') {
-        setTrackingId(response.trackingId);
+      if (String(response.responseStatus) === 'success' && response.orderId) {
+        console.log("Storing Order ID:", response.orderId);
+        sessionStorage.setItem("orderId", response.orderId);
+        sessionStorage.setItem("orderPrice", price);
+        // setTrackingId(response.trackingId);
+        
+
         alert(`Order placed successfully! Your tracking ID is ${response.trackingId}`);
-        navigate(`/customer/track-order?trackingId=${response.trackingId}`);
+        navigate(`/customer/payment`);
+        // navigate(`/customer/track-order?trackingId=${response.trackingId}`);
       } else {
         alert(`Error placing order: ${response.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error submitting order:', error);
+      alert("Failed to place order. Please try again.");
     }
   
     console.log("Sending data:", orderData);
@@ -174,6 +131,11 @@ const ParcelOrderForm = () => {
             <div className="mb-3">
               <label className="form-label">Receiver's Name</label>
               <input type="text" className="form-control" value={receiverName} onChange={(e) => setReceiverName(e.target.value)} />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Receiver's Address</label>
+              <input type="text" className="form-control" value={receiverAddress} onChange={(e) => setReceiverAddress(e.target.value)} />
             </div>
 
             <div className="mb-3">

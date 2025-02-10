@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { register } from '../services/user';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import WarehouseNavbar from '../components/warehouseNavbar';
 
 function Register() {
@@ -20,7 +20,7 @@ function Register() {
     pincode: ''
   });
 
-  const { flatNo, streetName, landmark, city, state, pincode } = address;
+  // const { flatNo, streetName, landmark, city, state, pincode } = address;
 
   const navigate = useNavigate();
 

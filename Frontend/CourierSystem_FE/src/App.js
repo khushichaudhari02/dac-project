@@ -33,6 +33,8 @@ import DeliveryProfile from './DeliveryAgent/profile'
 import UserRegister from './WarehousePages/UserRegistration'
 import CustomerHistory from './CustomerPages/history'
 import CustomerDashboard from './CustomerPages/CustomerDashboard'
+import PaymentPage from './CustomerPages/PaymentPage'
+import FeedbackPage from './CustomerPages/FeedbackPage'
 
 function App() {
   return (
@@ -65,6 +67,8 @@ function App() {
         <Route path='customer/price-cal' element={<CustomerCalPrice />} />
         <Route path='customer/profile' element={<CustomerProfile />} />
         <Route path='customer/history' element={<CustomerHistory />} />
+        <Route path='customer/payment' element={<PaymentPage />} />
+        <Route path="/customer/feedback" element={<FeedbackPage />} />
 
         {/* Admin Routes */}
         <Route path='admin/home' element={<AdminDashboard />} />
