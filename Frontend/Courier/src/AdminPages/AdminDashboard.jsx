@@ -57,14 +57,15 @@ const AdminDashboard = () => {
 
             {/* Parcel Status - Larger Section */}
             <div className="row justify-content-center">
-    <div className="col-md-10">
-        <div className="card shadow-lg p-4 mb-4 bg-white rounded text-center">
-            <h3 className="text-warning fw-bold display-5">🚚 Parcel Status</h3>
-            <div className="d-flex flex-wrap justify-content-center gap-3 mt-3">
-                <div className="p-3 bg-light rounded text-center" style={{ width: "160px" }}>
+              <div className="col-md-10">
+              <div className="card shadow-lg p-4 mb-4 bg-white rounded text-center">
+                <h3 className="text-warning fw-bold display-5">🚚 Parcel Status</h3>
+
+                <div className="d-flex flex-wrap justify-content-center gap-3 mt-3">
+                  <div className="p-3 bg-light rounded text-center" style={{ width: "160px" }}>
                     <h4 className="text-primary">✅ Placed</h4>
                     <p className="fw-bold display-6">{data.parcelStatus.placed}</p>
-                </div>
+                  </div>
                 <div className="p-3 bg-light rounded text-center" style={{ width: "160px" }}>
                     <h4 className="text-secondary">📥 Collected</h4>
                     <p className="fw-bold display-6">{data.parcelStatus.collected}</p>
@@ -84,9 +85,9 @@ const AdminDashboard = () => {
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
+    </div>
+    </div>
+    </div>
     );
 };
 
