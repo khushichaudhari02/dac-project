@@ -1,5 +1,5 @@
 
-import AdminNavbar from '../components/AdminNavbar';
+import AdminNavbar from '../components/NavBars/AdminNavbar';
 
 import PricingPage from '../Pricing/pricing';
 const AdminCalPrice = () => {

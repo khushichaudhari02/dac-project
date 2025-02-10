@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-// import { fetchDeliveries, acceptOrder, forwardOrder } from '../services/delivery';
-import WarehouseNavbar from '../components/warehouseNavbar';
+import { fetchDeliveries, acceptOrder, forwardOrder } from '../services/deliveries';
+import WarehouseNavbar from '../components/NavBars/WarehouseNavbar';
 
 function ManageDeliveries() {
   const [deliveries, setDeliveries] = useState([]);
+  const [selectedTab, setSelectedTab] = useState('arrival');
 
   useEffect(() => {
     const getDeliveries = async () => {
@@ -45,10 +46,23 @@ function ManageDeliveries() {
   };
 
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <WarehouseNavbar />
+      <div className="container flex-grow-1">
       <h2 className="heading">Manage Deliveries</h2>
-      <div className="container">
+      {/* <div className="container flex-grow-1"> */}
+
+      <div className="mb-3">
+          <select 
+            className="form-select w-25" 
+            value={selectedTab} 
+            onChange={(e) => setSelectedTab(e.target.value)}
+          >
+            <option value="arrival">Arrival</option>
+            <option value="departure">Departure</option>
+          </select>
+        </div>
+
         <div className="row">
           <div className="col">
             <table className="table table-striped">
@@ -61,32 +75,40 @@ function ManageDeliveries() {
                 </tr>
               </thead>
               <tbody>
-                {deliveries.map((delivery) => (
-                  <tr key={delivery.orderId}>
-                    <td>{delivery.orderId}</td>
-                    <td>{delivery.from}</td>
-                    <td>{delivery.to}</td>
-                    <td>
-                      <button
-                        onClick={() => handleAccept(delivery.orderId)}
-                        className="btn btn-success me-2"
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() => handleForward(delivery.orderId)}
-                        className="btn btn-primary"
-                      >
-                        Forward
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {deliveries
+                  .filter((delivery) => 
+                    selectedTab === 'arrival' ? delivery.status === 'pending' : delivery.status === 'accepted'
+                  )
+                  .map((delivery) => (
+                    <tr key={delivery.orderId}>
+                      <td>{delivery.orderId}</td>
+                      <td>{delivery.from}</td>
+                      <td>{delivery.to}</td>
+                      <td>
+                        {selectedTab === 'arrival' ? (
+                          <button
+                            onClick={() => handleAccept(delivery.orderId)}
+                            className="btn btn-success"
+                          >
+                            Accept
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleForward(delivery.orderId)}
+                            className="btn btn-primary"
+                          >
+                            Forward
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
         </div>
       </div>
+      
     </div>
   );
 }

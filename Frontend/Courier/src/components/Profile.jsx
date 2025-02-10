@@ -16,17 +16,18 @@ function Profile() {
     pincode: ''
   });
 
-  const { flatNo, streetName, landmark, city, state, pincode } = address;
+  const { id ,flatNo, streetName, landmark, city, state, pincode } = address;
 
   const onLoadProfile = async () => {
     const result = await getMyProfile();
     if (result.status === 'success') {
-      const data = result.data;
+      const data = result.user;
       setFirstName(data.firstName);
       setLastName(data.lastName);
       setEmail(data.email);
       setContactNumber(data.contactNumber);
       setAddress({
+        id:data.address.id||'',
         flatNo: data.address.flatNo || '',
         streetName: data.address.streetName || '',
         landmark: data.address.landmark || '',
@@ -100,9 +101,9 @@ function Profile() {
         <div className="row">
           <div className="col">
             <div className="mb-3">
-              <label htmlFor="phone">Phone Number</label>
+              <label htmlFor="contactNumber">Contact Number</label>
               <input
-                id="phone"
+                id="contactNumber"
                 value={contactNumber}
                 onChange={(e) => setContactNumber(e.target.value)}
                 type="tel"

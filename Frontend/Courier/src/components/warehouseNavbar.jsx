@@ -52,11 +52,6 @@ function WarehouseNavbar() {
                  Delivery Agent
                 </Link>
               </li>
-              {/* <li className='nav-item'>
-                <Link to='/wishlist' className='nav-link'>
-                  Wishlist ({wishlistItemCount})
-                </Link>
-              </li> */}
               <li className='nav-item'>
                 <Link to='/warehouse/manage-delivery' className='nav-link'>
                   Manage Deliveries
@@ -67,11 +62,7 @@ function WarehouseNavbar() {
                   Profile
                 </Link>
               </li>
-              {/* <li className='nav-item'>
-                <Link to='/change-password' className='nav-link'>
-                  Change Password
-                </Link>
-              </li> */}
+              
               <li className='nav-item'>
                 <button onClick={onLogout} className='nav-link'>
                   Logout

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import DeliveryAgentNavbar from '../components/NavBars/DeliveryAgentNavbar';
+import CustomerNavbar from '../components/NavBars/customerNavbar';
 
-function DeliveryHistory() {
+function CustomerHistory() {
   const [deliveries, setDeliveries] = useState([]);
 
   useEffect(() => {
@@ -18,16 +18,20 @@ function DeliveryHistory() {
 
   return (
     <div>
-    <DeliveryAgentNavbar/>
+    <CustomerNavbar />
     <div className="container">
-      <h2 className="my-4">Delivery History</h2>
+      <h2 className="my-4">Order History</h2>
       <table className="table table-bordered table-hover">
         <thead className="thead-light">
           <tr>
-            <th>Sender Name</th>
+            <th>Order Tracking ID </th>
             <th>Receiver Name</th>
             <th>Receiver Contact Number</th>
             <th>Receiver Address</th>
+            <th>Order Date</th>
+            <th>Delivery Date</th>
+            <th>Order Status</th>
+
           </tr>
         </thead>
         <tbody>
@@ -46,4 +50,4 @@ function DeliveryHistory() {
   );
 }
 
-export default DeliveryHistory;
+export default CustomerHistory;
