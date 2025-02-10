@@ -1,5 +1,6 @@
 package com.courier.services;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.courier.dto.OrderDto;
 import com.courier.dto.PlaceOrderRequestDto;
 import com.courier.dto.PlaceOrderResponseDto;
+import com.courier.pojos.DeliveryAgents;
 import com.courier.pojos.OrderStatus;
 import com.courier.pojos.Orders;
 import com.courier.pojos.Routes;
@@ -21,6 +23,7 @@ import com.courier.pojos.RoutesStatus;
 import com.courier.pojos.TrackingIdGenerator;
 import com.courier.pojos.Users;
 import com.courier.pojos.Warehouse;
+import com.courier.repository.DeliveryAgentRepository;
 import com.courier.repository.OrdersRepository;
 import com.courier.repository.RouteRepository;
 import com.courier.repository.UserRepository;
@@ -31,6 +34,8 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class OrderService {
+	
+	private static int deliveryagentNumber=0;
 
 	@Autowired
 	private OrdersRepository ordersRepository;
@@ -43,6 +48,9 @@ public class OrderService {
 	
 	@Autowired
 	private WarehouseRepository warehouseRepository;
+	
+	@Autowired
+	private DeliveryAgentRepository deliveryAgentRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -61,14 +69,16 @@ public class OrderService {
 		return ordersDto;
 	}
 
-	public List<Orders> getByStatusAndAgentId(Long id) {
+	public List<Orders> deliveryAgentHistory(Long id) {
 		Users user = usersRepository.findById(id).orElseThrow();
-		return ordersRepository.findByStatusAndDeliveryAgentId(OrderStatus.DELIVERED, user);
+		DeliveryAgents agent = deliveryAgentRepository.findByUser(user);
+		return ordersRepository.findByStatusAndDeliveryAgentId(OrderStatus.DELIVERED, agent);
 	}
 
-	public List<Orders> getByStatusNotAndAgentId(Long id) {
+	public List<Orders> deliveryAgentDeliveries(Long id) {
 		Users user = usersRepository.findById(id).orElseThrow();
-		return ordersRepository.findByDeliveryAgentIdAndStatusNot(user, OrderStatus.DELIVERED);
+		DeliveryAgents agent = deliveryAgentRepository.findByUser(user);
+		return ordersRepository.findByDeliveryAgentIdAndStatus(agent, OrderStatus.OUT_FOR_DELIVERY);
 	}
 
 	public PlaceOrderResponseDto placeOrder(PlaceOrderRequestDto requestDTO) {
@@ -119,11 +129,11 @@ public class OrderService {
 	private void createRoutesForOrder(Orders order, long sourceId, long destinationId) {
 		
         Map<Long, String> warehouseIdToName = Map.of(
-            20L, "Delhi",
-            21L, "Pune",
-            22L, "Hyderabad",
-            23L, "Chennai",
-            24L,"Mumbai"
+            3L, "Delhi",
+            5L, "Pune",
+            4L, "Hyderabad",
+            2L, "Chennai",
+            1L,"Mumbai"
         );
 
         // Convert IDs to names for the graph search
@@ -198,5 +208,34 @@ public class OrderService {
 		return ordersDto;
 	
 	}
+
+	public DeliveryAgents assignDelivery(Long routeId, Long managerId) {
+		Routes route=routesRepository.findById(routeId).orElseThrow();
+		Users manager=usersRepository.findById(managerId).orElseThrow();
+		Warehouse warehouse=warehouseRepository.findByManager(manager);
+		List<DeliveryAgents> agents= deliveryAgentRepository.findByWarehouse(warehouse);
+		Orders order = route.getOrderId();
+		order.setDeliveryAgentId(agents.get(deliveryagentNumber));
+		order.setStatus(OrderStatus.OUT_FOR_DELIVERY);
+		route.setDispatchDate(LocalDateTime.now());
+		deliveryagentNumber=(deliveryagentNumber+1)%(agents.size());
+		
+		return order.getDeliveryAgentId();
+	}
+
+	public String deliverOrder(Long orderId) {
+        Orders order = ordersRepository.findById(orderId).orElseThrow();
+        
+        List<Routes> routes = routesRepository.findByOrderId(order);
+        for(Routes route: routes) {
+        	//route.setStatus(RoutesStatus.DELIVERED);
+        	routesRepository.save(route);
+        }
+        
+        order.setDeliveryDate(new Date());
+        order.setStatus(OrderStatus.DELIVERED);
+        ordersRepository.save(order);
+        return "success";
+    }
 
 }

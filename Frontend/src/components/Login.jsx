@@ -41,7 +41,7 @@ function Login() {
 
         // redirect based on user role
         if (userRole=== 'ROLE_ADMIN') {
-          navigate('/admin/profile');
+          navigate('/admin/orders');
         } else if (userRole === 'ROLE_CUSTOMER') {
           navigate('/customer/home');
         } else if (userRole === 'ROLE_DELIVERY_AGENT') {

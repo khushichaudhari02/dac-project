@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 // import { getCourierByTracking } from "../services/courierService";
 // import MapComponent from "../components/MapComponent";
-
+import axios from 'axios';
+import { createUrl } from '../utils';
 const TrackingPage = () => {
   const [trackingId, setTrackingId] = useState('');
   const [trackingData, setTrackingData] = useState(null);
@@ -9,9 +10,9 @@ const TrackingPage = () => {
   const handleTrack = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://your-backend-api.com/track?trackingId=${trackingId}`);
-      const data = await response.json();
-      setTrackingData(data);
+      const url=createUrl("track/")+trackingId;
+      const response = await axios.get(url);
+      setTrackingData(response.data);
     } catch (error) {
       console.error('Error fetching tracking data:', error);
     }
@@ -47,14 +48,17 @@ const TrackingPage = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>{trackingData.source}</td>
-                  <td>{trackingData.destination}</td>
-                  <td>{trackingData.arrivedDate}</td>
-                  <td>{trackingData.dispatchedDate}</td>
-                  <td>{trackingData.status}</td>
-                </tr>
-              </tbody>
+          {trackingData.map((route) => (
+            <tr>
+              <td>{route.fromWarehouse}</td>
+              <td>{route.toWarehouse}</td>
+              <td>{route.arrivalDate}</td>
+              <td>{route.dispatchDate}</td>
+              <td>{route.status}</td>
+              
+            </tr>
+          ))}
+        </tbody>
             </table>
           </div>
         </div>
@@ -64,3 +68,7 @@ const TrackingPage = () => {
 };
 
 export default TrackingPage;
+
+
+
+

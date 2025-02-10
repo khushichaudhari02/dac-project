@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { createUrl } from '../utils';
 import DeliveryAgentNavbar from '../components/NavBars/DeliveryAgentNavbar';
-
+import { toast } from 'react-toastify';
 function DeliveryDashboard() {
   const [orders, setOrders] = useState([]);
 
@@ -24,15 +24,17 @@ function DeliveryDashboard() {
   }, []);
 
   const handleDeliver = async (orderId) => {
-    const url = createUrl(`update-status/${orderId}`);
+    const url = createUrl(`delivery/update-status/${orderId}`);
     const token = sessionStorage['token'];
-    await axios.put(url, { status: 'Delivered' }, {
+    const response= await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     });
-    // Refresh the orders list to reflect the updated status
+    if(response.data=='success'){
+      toast.success("Order Delivered Successfully")
+    }
     onLoad();
   };
 

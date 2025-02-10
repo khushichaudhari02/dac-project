@@ -89,14 +89,14 @@ function ManageDeliveries() {
 
   const handleDeliver = async (routeId) => {
     try {
-      const token = sessionStorage.getItem("token");
-      const response = await axios.post(
-        `http://localhost:8080/routes/deliverOrder/${routeId}`,
-        {},
+      const token = sessionStorage['token'];
+      const userId=sessionStorage['userId'];
+      const response = await axios.get(
+        `http://localhost:8080/warehouse/deliverOrder/${routeId}/${userId}`,
         { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
       );
       if (response.status === 200) {
-        toast.success("Order delivered successfully!");
+        toast.success(`Delivery Agent ${response.data.id} assigned successfully!`);
         setDeliveries((prev) => prev.filter((d) => d.id !== routeId));
       }
     } catch (error) {
@@ -142,8 +142,8 @@ function ManageDeliveries() {
             {deliveries.map((delivery) => (
               <tr key={delivery.id}>
                 <td>{delivery.orderId?.id || 'N/A'}</td>
-                <td>{delivery.orderId.fromWarehouse.location.city}</td>
-                <td>{delivery.orderId.toWarehouse.location.city}</td>
+                <td>{delivery.fromId.location.city}</td>
+                <td>{delivery.toId.location.city}</td>
                 <td>
                   {selectedTab === 'arrival' ? (
                     <button

@@ -10,15 +10,16 @@ function DeliveryAgents() {
   const [agents, setAgents] = useState([]);
 
   const onLoad = async () => {
+    const id =sessionStorage['userId']
     const token = sessionStorage['token']
-    const url = createUrl('warehouse/deliveryagents');
+    const url = createUrl(`warehouse/deliveryagents/${id}`);
     const result = (await axios.get(url,{
       headers: {
         'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json'
       },
-    })).data;
-    if (result.status === 'success') {
+    }));
+    if (result) {
       setAgents(result.data);
     } else {
       console.error(result.error);
@@ -59,9 +60,9 @@ function DeliveryAgents() {
                     <td>{agent.email}</td>
                     <td>{agent.contactNumber}</td>
                     <td>
-                      {agent.address ? (
+                      {agent? (
                         <>
-                          {agent.address.flatNo}, {agent.address.streetName}, {agent.address.landmark}, {agent.address.city}, {agent.address.state}, {agent.address.pincode}
+                          {agent.flatNo}, {agent.streetName}, {agent.landmark}, {agent.city}, {agent.state}, {agent.pincode}
                         </>
                       ) : ''}
                     </td>

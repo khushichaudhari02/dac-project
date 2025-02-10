@@ -36,7 +36,7 @@ public class SecurityConfig {
 				.cors(Customizer.withDefaults())
 				//.formLogin(Customizer.withDefaults())
 				//.httpBasic(Customizer.withDefaults())
-				.authorizeHttpRequests(request -> request.requestMatchers("/login", "/register","/price/**").permitAll()
+				.authorizeHttpRequests(request -> request.requestMatchers("/login", "/register","/price/**","/track/*").permitAll()
 				        .requestMatchers(HttpMethod.OPTIONS).permitAll()
 				        .requestMatchers("/updateprofile","/profile/*").hasAnyRole("ADMIN","WAREHOUSE_MANAGER","DELIVERY_AGENT","CUSTOMER")
 						.requestMatchers("/admin/**").hasRole("ADMIN")

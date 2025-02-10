@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.courier.dto.LoginRequestDto;
 import com.courier.dto.RegisterRequestDto;
 import com.courier.dto.RegisterResponseDto;
+import com.courier.pojos.DeliveryAgents;
 import com.courier.pojos.Users;
 import com.courier.services.UserService;
 
@@ -43,13 +44,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponseDto("success"));
     }
 	@PostMapping("/warehouse/register")
-    public RegisterResponseDto registerDelivery(@RequestBody RegisterRequestDto userDto) {
+    public ResponseEntity<?> registerDelivery(@RequestBody RegisterRequestDto userDto) {
 		System.out.println(userDto);
 		
-        userService.registerDeliveryAgent(userDto);
-        
-        return new RegisterResponseDto("success");
-    }
+		 DeliveryAgents registeredUser = userService.registerDeliveryAgent(userDto);
+		   if (registeredUser==null) {
+	        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RegisterResponseDto("failed"));
+	        }
+	      
+	        return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponseDto("success"));
+	    }
 	
 	@PostMapping("/updateprofile")
 	public ResponseEntity<?> updateProfile(@RequestBody Users user) {
@@ -66,9 +70,10 @@ public class UserController {
 		return  ResponseEntity.ok(userService.getProfile(id));
 		
 	}
-	@GetMapping("/warehouse/deliveryagents")
-	public  ResponseEntity<?> getMethodName() {
-		return ResponseEntity.ok(userService.getAllDeliveryAgents());
+	@GetMapping("/warehouse/deliveryagents/{id}")
+	public  ResponseEntity<?> getMethodName(@PathVariable Long id) {
+		
+		return ResponseEntity.ok(userService.getAllDeliveryAgents(id));
 	}
 	
 	

@@ -60,7 +60,7 @@ public class Orders {
 	private Users senderId;
 	@ManyToOne
 	@JoinColumn(name="Delivery_AgentId")
-	private Users deliveryAgentId;
+	private DeliveryAgents deliveryAgentId;
 	
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;

@@ -1,11 +1,14 @@
 package com.courier.services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.courier.dto.RoutesDto;
+import com.courier.pojos.OrderStatus;
 import com.courier.pojos.Orders;
 import com.courier.pojos.Routes;
 import com.courier.pojos.RoutesStatus;
@@ -48,6 +51,7 @@ public class RouteService {
 	    public Routes acceptOrder(Long routeId) {
 	        Routes route = routeRepository.findById(routeId).orElseThrow();
 	        Orders order= ordersRepository.findById(route.getOrderId().getId()).orElseThrow();
+	        order.setStatus(OrderStatus.IN_TRANSIT);
 	        if(order.getToWarehouse().getId()==route.getToId().getId()) {
 	        	route.setStatus(RoutesStatus.REACHED);
 	        }
@@ -83,8 +87,31 @@ public class RouteService {
 
 	    public List<Routes> getRoutesByWarehouseAndStatus(Long warehouseId, RoutesStatus status) {
 	        Warehouse warehouse = warehouseRepository.findById(warehouseId).orElseThrow();
+	        
 	        return routeRepository.findByToIdAndStatus(warehouse, status);
+	       
 	    }
+
+		public List<Routes> trackOrder1(String trackingId) {
+			Orders order = ordersRepository.findByTrackingId(trackingId);
+			return routeRepository.findByOrderId(order);
+		}
+
+		public List<RoutesDto> trackOrder(String trackingId) {
+			Orders order = ordersRepository.findByTrackingId(trackingId);
+			List<Routes> routes=routeRepository.findByOrderId(order);
+			List<RoutesDto> routesDto = new ArrayList<>(); 
+			for(Routes route: routes) {
+				RoutesDto routeDto= new RoutesDto();
+				routeDto.setArrivalDate(route.getArrivalDate());
+				routeDto.setDispatchDate(route.getDispatchDate());
+				routeDto.setFromWarehouse(route.getFromId().getLocation().getCity());
+				routeDto.setToWarehouse(route.getToId().getLocation().getCity());
+				routeDto.setStatus(route.getStatus().name());
+				routesDto.add(routeDto);
+			}
+			return routesDto;
+		}
 
 
 }

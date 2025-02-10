@@ -19,11 +19,11 @@ const ParcelOrderForm = () => {
   
 
   const cities = [
-    { name: 'Delhi', value: 20 },
-    { name: 'Mumbai', value: 24 },
-    { name: 'Pune', value: 21 },
-    { name: 'Hyderabad', value: 22 },
-    { name: 'Chennai', value: 23 }
+    { name: 'Delhi', value: 3 },
+    { name: 'Mumbai', value: 1 },
+    { name: 'Pune', value: 5 },
+    { name: 'Hyderabad', value: 4 },
+    { name: 'Chennai', value: 2 }
   ];
   useEffect(() => {
     const userId = sessionStorage.getItem('userId'); // Get user ID directly as a string

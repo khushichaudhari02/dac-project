@@ -29,13 +29,13 @@ public class OrderController {
 	
 	@GetMapping("/delivery/history/{id}")
 	public ResponseEntity<?> getByStatusAndAgentId(@PathVariable Long id){
-		return ResponseEntity.ok(orderService.getByStatusAndAgentId(id));
+		return ResponseEntity.ok(orderService.deliveryAgentHistory(id));
 		
 	}
 	
 	@GetMapping("/delivery/deliveries/{id}")
 	public ResponseEntity<?> getByStatusNotAndAgentId(@PathVariable Long id){
-		return ResponseEntity.ok(orderService.getByStatusNotAndAgentId(id));
+		return ResponseEntity.ok(orderService.deliveryAgentDeliveries(id));
 		
 	}
 	@PostMapping("/customer/place-order")
@@ -50,5 +50,17 @@ public class OrderController {
 	public ResponseEntity<?> getAllOrdersByCustomer(@PathVariable Long id){
 		return ResponseEntity.ok(orderService.getAllOrdersByCustomer(id));
 	}
+	
+	@GetMapping("/warehouse/deliverOrder/{routeId}/{managerId}")
+	public ResponseEntity<?> assignDelivery(@PathVariable Long routeId,@PathVariable Long managerId){
+		return ResponseEntity.ok(orderService.assignDelivery(routeId,managerId));
+		
+	}
+	@GetMapping("/delivery/update-status/{orderId}")
+    public ResponseEntity<?> updateOrderStatus(@PathVariable Long orderId) {
+        orderService.deliverOrder(orderId);
+        return ResponseEntity.ok(orderService.deliverOrder(orderId));
+    }
+	
 
 }

@@ -18,11 +18,11 @@ function Home() {
       if (result.status === 'success') {
         setItems(result.data);
       } else {
-        toast.error(result.error);
+        //toast.error(result.error);
       }
     } catch (error) {
       console.error("Error fetching items:", error);
-      toast.error("Failed to load items.");
+      //toast.error("Failed to load items.");
     }
   };
 

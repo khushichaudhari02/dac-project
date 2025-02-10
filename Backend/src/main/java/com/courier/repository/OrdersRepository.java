@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.courier.pojos.DeliveryAgents;
 import com.courier.pojos.OrderStatus;
 import com.courier.pojos.Orders;
 import com.courier.pojos.Users;
@@ -11,11 +12,16 @@ import com.courier.pojos.Users;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
 	
-	List<Orders> findByStatusAndDeliveryAgentId(OrderStatus status,Users user);
 	
-	List<Orders>findByDeliveryAgentIdAndStatusNot(Users user,OrderStatus status);
 
 	List<Orders> findAllBySenderId(Users customer);
+
+	Orders findByTrackingId(String trackingId);
+
+	List<Orders> findByDeliveryAgentIdAndStatus(DeliveryAgents agent, OrderStatus outForDelivery);
+
+	List<Orders> findByStatusAndDeliveryAgentId(OrderStatus delivered, DeliveryAgents agent);
+
 
 
 }

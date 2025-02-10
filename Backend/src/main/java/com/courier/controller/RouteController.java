@@ -18,37 +18,44 @@ import com.courier.pojos.Warehouse;
 import com.courier.services.RouteService;
 
 @RestController
-@RequestMapping("/routes")
+@RequestMapping("/")
 @CrossOrigin(origins ="http://localhost:3000")
 
 public class RouteController {
 	
 	@Autowired 
 	private RouteService routeService;
-	@GetMapping("/byWarehouse/{warehouseId}")
+	@GetMapping("/routes/byWarehouse/{warehouseId}")
     public List<Routes> getRoutesByWarehouseAndStatus(@PathVariable Long warehouseId) {
         return routeService.getRoutesByWarehouseAndStatus(warehouseId);
     }
-	 @PostMapping("/acceptOrder/{routeId}")
+	 @PostMapping("/routes/acceptOrder/{routeId}")
 	    public ResponseEntity<Routes> acceptOrder(@PathVariable Long routeId) {
 	        Routes updatedRoute = routeService.acceptOrder(routeId);
 	        return ResponseEntity.ok(updatedRoute);
 	    }
 	 
-	 @PostMapping("/forwardOrder/{routeId}")
+	 @PostMapping("/routes/forwardOrder/{routeId}")
 	    public ResponseEntity<Routes> forwardOrder(@PathVariable Long routeId) {
 	        Routes updatedRoute = routeService.forwardOrder(routeId);
 	        return ResponseEntity.ok(updatedRoute);
 	    }
 
 //	 new code
-	 @GetMapping("/byWarehouse/status")
-	    public List<Routes> getRoutesByStatus(@RequestParam Long userId, @RequestParam RoutesStatus status) {
+	 @GetMapping("/routes/byWarehouse/status")
+	    public ResponseEntity<?> getRoutesByStatus(@RequestParam Long userId, @RequestParam RoutesStatus status) {
 		 System.out.println(userId+" "+status);
 		System.out.println("hello");
 	        Warehouse warehouse = routeService.getWarehouseByUserId(userId);
-	        return routeService.getRoutesByWarehouseAndStatus(warehouse.getId(), status);
+	        return ResponseEntity.ok(routeService.getRoutesByWarehouseAndStatus(warehouse.getId(), status));
 	    }
+	 @GetMapping("/track/{trackingId}")
+	 public ResponseEntity<?> trackOrder(@PathVariable String trackingId) {
+		 System.out.println(trackingId);
+	 	return ResponseEntity.ok(routeService.trackOrder(trackingId));
+	 }
+
+	 
 	 
 
 

@@ -5,21 +5,25 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.courier.dto.ApiResponse;
+import com.courier.dto.DeliveryAgentsDto;
 import com.courier.dto.LoginRequestDto;
 import com.courier.dto.LoginResponseDto;
 import com.courier.dto.ProfileDto;
 import com.courier.dto.RegisterRequestDto;
 import com.courier.pojos.Address;
+import com.courier.pojos.DeliveryAgents;
 import com.courier.pojos.Role;
 import com.courier.pojos.Users;
 import com.courier.pojos.Warehouse;
 import com.courier.repository.AddressRepository;
+import com.courier.repository.DeliveryAgentRepository;
 import com.courier.repository.UserRepository;
 import com.courier.repository.WarehouseRepository;
 import com.courier.security.JWTService;
@@ -37,14 +41,14 @@ public class UserService {
 	private WarehouseRepository warehouseRepository;
 	@Autowired
 	private ModelMapper modelMapper;
-	
-	
 	@Autowired
 	private AuthenticationManager authManager;
 	@Autowired
 	private JWTService jwtService;
+	@Autowired
+	private DeliveryAgentRepository deliveryAgentRepository;
 	
-
+	
 	public LoginResponseDto login(LoginRequestDto dto) {
 		Authentication authentication = authManager
 				.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
@@ -83,10 +87,27 @@ public class UserService {
 		return new ProfileDto("success", user);
 	}
 
-	public ApiResponse getAllDeliveryAgents() {
-		List<Users> deliveryAgents = new ArrayList<>();
-		deliveryAgents = userRepository.findByRole(Role.ROLE_DELIVERY_AGENT);
-		return new ApiResponse("success",deliveryAgents);
+	public List<DeliveryAgentsDto> getAllDeliveryAgents(Long id) {
+		Users manager = userRepository.findById(id).orElseThrow();
+		Warehouse warehouse= warehouseRepository.findByManager(manager);
+		List<DeliveryAgents> deliveryAgents = deliveryAgentRepository.findByWarehouse(warehouse);
+		List<DeliveryAgentsDto> agents = new ArrayList<>();
+		for (int i = 0; i < deliveryAgents.size(); i++){
+			DeliveryAgentsDto dto = new DeliveryAgentsDto(); 
+		    dto.setId(deliveryAgents.get(i).getId());
+		    dto.setCity(deliveryAgents.get(i).getUser().getAddress().getCity());
+		    dto.setPincode(deliveryAgents.get(i).getUser().getAddress().getPincode());
+		    dto.setLandmark(deliveryAgents.get(i).getUser().getAddress().getLandmark());
+		    dto.setFlatNo(deliveryAgents.get(i).getUser().getAddress().getFlatNo());
+		    dto.setStreetName(deliveryAgents.get(i).getUser().getAddress().getStreetName());
+		    dto.setState(deliveryAgents.get(i).getUser().getAddress().getState());	    
+		    dto.setFirstName(deliveryAgents.get(i).getUser().getFirstName());
+		    dto.setLastName(deliveryAgents.get(i).getUser().getLastName());
+		    dto.setEmail(deliveryAgents.get(i).getUser().getEmail());
+		    dto.setContactNumber(deliveryAgents.get(i).getUser().getContactNumber());
+		    agents.add(dto); 
+		}
+		return agents;
 	}
 
 	public Users registerUser(RegisterRequestDto userDto) {
@@ -109,7 +130,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-	public String registerDeliveryAgent(RegisterRequestDto userDto) {
+	public DeliveryAgents registerDeliveryAgent(RegisterRequestDto userDto) {
 		Address address = new Address();
 		address.setFlatNo(userDto.getFlatNo());
 		address.setStreetName(userDto.getStreetName());
@@ -122,13 +143,14 @@ public class UserService {
         Users user = modelMapper.map(userDto, Users.class);
         user.setAddress(address);
         user.setRole(Role.ROLE_DELIVERY_AGENT);
+        userRepository.save(user);
         Users manager = userRepository.findById(userDto.getWarehouseManagerId()).orElseThrow();
         Warehouse warehouse = warehouseRepository.findByManager(manager);
-        List<Users> agents = warehouse.getDeliveryAgents();
-        agents.add(user);
-        userRepository.save(user);
-        warehouseRepository.save(warehouse);
-        return "success";
+        DeliveryAgents agent = new DeliveryAgents();
+        agent.setUser(user);
+        agent.setWarehouse(warehouse);        
+        return deliveryAgentRepository.save(agent);
+         
 		
 	}
 	
