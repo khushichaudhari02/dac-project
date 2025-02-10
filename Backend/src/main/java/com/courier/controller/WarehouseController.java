@@ -24,11 +24,11 @@ public class WarehouseController {
 	public ResponseEntity<?> getAllWarehouse(){
 		return ResponseEntity.ok(warehouseServices.getAllWarehouses());
 	}
-	@GetMapping("/admin/warehouse/{id}")
+	@GetMapping("/admin/warehouses/{id}")
 	public ResponseEntity<?> getWarehouse(@PathVariable Long id){
 		return ResponseEntity.ok(warehouseServices.getWarehouse(id));
 	}
-	@PutMapping("/admin/warehouse/{id}")
+	@PutMapping("/admin/warehouses/{id}")
 	public ResponseEntity<?> updateWarehouse(@PathVariable Long id,@RequestBody Address address){
 		return ResponseEntity.ok(warehouseServices.updateWarehouse(id,address));
 	}

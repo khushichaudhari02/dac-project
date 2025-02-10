@@ -18,8 +18,10 @@ import com.courier.dto.RegisterRequestDto;
 import com.courier.pojos.Address;
 import com.courier.pojos.Role;
 import com.courier.pojos.Users;
+import com.courier.pojos.Warehouse;
 import com.courier.repository.AddressRepository;
 import com.courier.repository.UserRepository;
+import com.courier.repository.WarehouseRepository;
 import com.courier.security.JWTService;
 
 import jakarta.transaction.Transactional;
@@ -31,6 +33,8 @@ public class UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private AddressRepository addressRepository;
+	@Autowired
+	private WarehouseRepository warehouseRepository;
 	@Autowired
 	private ModelMapper modelMapper;
 	
@@ -86,6 +90,10 @@ public class UserService {
 	}
 
 	public Users registerUser(RegisterRequestDto userDto) {
+		if(userRepository.existsByEmail(userDto.getEmail())) {
+			return null;
+			
+		}
 		System.out.println(userDto);
 		Address address = new Address();
 		address.setFlatNo(userDto.getFlatNo());
@@ -101,7 +109,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-	public Users registerDeliveryAgent(RegisterRequestDto userDto) {
+	public String registerDeliveryAgent(RegisterRequestDto userDto) {
 		Address address = new Address();
 		address.setFlatNo(userDto.getFlatNo());
 		address.setStreetName(userDto.getStreetName());
@@ -109,10 +117,18 @@ public class UserService {
 		address.setLandmark(userDto.getLandmark());
 		address.setState(userDto.getState());
 		address.setPincode(userDto.getPincode());
+		System.out.println(address);
+		addressRepository.save(address);
         Users user = modelMapper.map(userDto, Users.class);
         user.setAddress(address);
         user.setRole(Role.ROLE_DELIVERY_AGENT);
-        return userRepository.save(user);
+        Users manager = userRepository.findById(userDto.getWarehouseManagerId()).orElseThrow();
+        Warehouse warehouse = warehouseRepository.findByManager(manager);
+        List<Users> agents = warehouse.getDeliveryAgents();
+        agents.add(user);
+        userRepository.save(user);
+        warehouseRepository.save(warehouse);
+        return "success";
 		
 	}
 	

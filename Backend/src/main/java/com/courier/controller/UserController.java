@@ -36,10 +36,13 @@ public class UserController {
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDto userDto) {
 		System.out.println(userDto);
         Users registeredUser = userService.registerUser(userDto);
+        if (registeredUser==null) {
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RegisterResponseDto("failed"));
+        }
       
-        return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponseDto("succcess"));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponseDto("success"));
     }
-	@PostMapping("/delivery/register")
+	@PostMapping("/warehouse/register")
     public RegisterResponseDto registerDelivery(@RequestBody RegisterRequestDto userDto) {
 		System.out.println(userDto);
 		

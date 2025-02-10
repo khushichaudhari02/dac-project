@@ -40,7 +40,7 @@ public class SecurityConfig {
 				        .requestMatchers(HttpMethod.OPTIONS).permitAll()
 				        .requestMatchers("/updateprofile","/profile/*").hasAnyRole("ADMIN","WAREHOUSE_MANAGER","DELIVERY_AGENT","CUSTOMER")
 						.requestMatchers("/admin/**").hasRole("ADMIN")
-						.requestMatchers("/warehouse/**").hasRole("WAREHOUSE_MANAGER")
+						.requestMatchers("/warehouse/**","warehouse/*","routes/**").hasRole("WAREHOUSE_MANAGER")
 						.requestMatchers("/delivery/**").hasRole("DELIVERY_AGENT")
 						.requestMatchers("/customer/**").hasRole("CUSTOMER")
 						.anyRequest().authenticated())

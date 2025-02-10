@@ -15,4 +15,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 	
 	List<Orders>findByDeliveryAgentIdAndStatusNot(Users user,OrderStatus status);
 
+	List<Orders> findAllBySenderId(Users customer);
+
+
 }

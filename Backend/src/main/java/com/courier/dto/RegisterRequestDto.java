@@ -12,6 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequestDto {
+	private Long warehouseManagerId;
 	private String firstName;
 	private String lastName;
 	private String email;
