@@ -1,5 +1,5 @@
 
-import DeliveryAgentNavbar from '../components/DeliveryAgentNavbar';
+import DeliveryAgentNavbar from '../components/NavBars/DeliveryAgentNavbar';
 import Profile from '../components/Profile';
 function DeliveryProfile() {
 

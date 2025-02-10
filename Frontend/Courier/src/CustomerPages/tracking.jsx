@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import CustomerNavbar from '../components/customerNavbar';
+// import React, { useState } from 'react';
+import CustomerNavbar from '../components/NavBars/customerNavbar';
 import TrackingPage from '../Tracking/track';
 const CustomerTrackParcle = () => {
   
