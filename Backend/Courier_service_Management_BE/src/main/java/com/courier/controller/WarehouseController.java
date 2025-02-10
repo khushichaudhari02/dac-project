@@ -2,6 +2,7 @@ package com.courier.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +15,7 @@ import com.courier.services.WarehouseServices;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:3000")
 public class WarehouseController {
 	@Autowired
 	private WarehouseServices warehouseServices;
@@ -30,5 +32,6 @@ public class WarehouseController {
 	public ResponseEntity<?> updateWarehouse(@PathVariable Long id,@RequestBody Address address){
 		return ResponseEntity.ok(warehouseServices.updateWarehouse(id,address));
 	}
+	
 
 }

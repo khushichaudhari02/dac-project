@@ -3,10 +3,13 @@ package com.courier.services;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.courier.dto.OrderDto;
 import com.courier.dto.PlaceOrderRequestDto;
 import com.courier.dto.PlaceOrderResponseDto;
 import com.courier.pojos.OrderStatus;
@@ -28,13 +31,23 @@ public class OrderService {
 	
 	@Autowired
 	private UserRepository usersRepository;
+
+        @Autowired
+	private WarehouseRepository warehouseRepository;
+
 	
 	@Autowired
-	private WarehouseRepository warehouseRepository;
-	
-	
-	public List<Orders> getAllOrders(){
-		return ordersRepository.findAll();
+	private ModelMapper modelMapper;
+	public List<OrderDto> getAllOrders(){
+		 List<Orders> orders = ordersRepository.findAll();
+	     List<OrderDto> ordersDto=orders.stream()
+	                .map(order -> modelMapper.map(order, OrderDto.class)) 
+	                .collect(Collectors.toList());
+	     for(int i=0;i<orders.size();i++) {
+	    	 ordersDto.get(i).setSource(orders.get(i).getFromWarehouse().getLocation().getCity());
+	    	 ordersDto.get(i).setDestination(orders.get(i).getToWarehouse().getLocation().getCity());
+	        }
+		return ordersDto;
 	}
 	
 	public List<Orders> getByStatusAndAgentId(Long id){
@@ -46,11 +59,12 @@ public class OrderService {
 		Users user = usersRepository.findById(id).orElseThrow();
 		return ordersRepository.findByDeliveryAgentIdAndStatusNot(user, OrderStatus.DELIVERED);
 	}
-	
-	
-	
-	public PlaceOrderResponseDto placeOrder(PlaceOrderRequestDto requestDTO) {
+
+public PlaceOrderResponseDto placeOrder(PlaceOrderRequestDto requestDTO) {
+		System.out.println(requestDTO);
+
 		try {
+			System.out.println(requestDTO);
         // Fetch sender user
         Users senderId = usersRepository.findById(requestDTO.getSenderId())
                 .orElseThrow(() -> new RuntimeException("Sender not found"));
@@ -90,6 +104,7 @@ public class OrderService {
         responseDTO.setToWarehouseId(toWarehouse.getId());
         responseDTO.setPrice(savedOrder.getPrice());
         responseDTO.setStatus(savedOrder.getStatus());
+        responseDTO.setResponseStatus("success"); // Set status to 'success'
 
         return responseDTO;
     
@@ -98,8 +113,10 @@ public class OrderService {
         // Log the error
         System.err.println("Error while placing order: " + e.getMessage());
         e.printStackTrace();
-        throw new RuntimeException("Error while placing order");
+        throw new RuntimeException("Order placement failed: " + e.getMessage());
     }
 }
-}
+
 	
+	
+}

@@ -1,9 +1,6 @@
 package com.courier.pojos;
 
 import java.util.Date;
-import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,8 +38,8 @@ public class Orders {
 	private Date deliveryDate;
 	
 	
-	@Column(unique = true, nullable = false)
-    private String trackingId = UUID.randomUUID().toString();
+	@Column(name="Tracking_id")
+	private String trackingId;
 	
 	private double price;
 	
@@ -53,14 +50,13 @@ public class Orders {
 	private String contactNumber;
 	
 	private double Weight;
-	@OneToOne
+	@ManyToOne
 	private Warehouse toWarehouse;
-	@OneToOne
+	@ManyToOne
 	private Warehouse fromWarehouse;
 	
 	@ManyToOne
 	@JoinColumn(name="sender_id",nullable=false)
-	@JsonIgnore
 	private Users senderId;
 	@ManyToOne
 	@JoinColumn(name="Delivery_AgentId")

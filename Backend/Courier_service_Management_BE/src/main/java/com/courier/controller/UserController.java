@@ -1,6 +1,7 @@
 package com.courier.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +16,11 @@ import com.courier.dto.RegisterRequestDto;
 import com.courier.dto.RegisterResponseDto;
 import com.courier.pojos.Users;
 import com.courier.services.UserService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class UserController {
 	@Autowired
 	private UserService userService;
@@ -33,9 +33,17 @@ public class UserController {
 		
 	}
 	@PostMapping("/register")
-    public RegisterResponseDto registerUser(@RequestBody RegisterRequestDto userDto) {
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDto userDto) {
 		System.out.println(userDto);
         Users registeredUser = userService.registerUser(userDto);
+      
+        return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponseDto("succcess"));
+    }
+	@PostMapping("/delivery/register")
+    public RegisterResponseDto registerDelivery(@RequestBody RegisterRequestDto userDto) {
+		System.out.println(userDto);
+		
+        userService.registerDeliveryAgent(userDto);
         
         return new RegisterResponseDto("success");
     }

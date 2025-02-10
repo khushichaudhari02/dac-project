@@ -1,8 +1,5 @@
 package com.courier.dto;
 
-import com.courier.pojos.Address;
-import com.courier.pojos.Users;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WarehouseDto {
+public class AddressDto {
 	private Long id;
-	private Address location;
-	private Long managerId;
-	private String managerName;
-
+	private String flatNo;
+	private String streetName;
+	private String landmark;
+	private String city;
+	private String state;
+	private int pincode;
 }

@@ -21,7 +21,6 @@ public class Warehouse {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-		
 	@OneToOne(orphanRemoval = true)
 	private Address Location;
 	@OneToOne

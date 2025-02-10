@@ -27,8 +27,19 @@ public class PlaceOrderResponseDto {
     private Long toWarehouseId;
     private double price;
     private OrderStatus status;
+//  new code added for repoonse status
+    private String responseStatus; 
 	public void setFromWarehouseId(Long id) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	  // Getters and Setters
+    public String getResponseStatus() {
+        return responseStatus;
+    }
+
+    public void setResponseStatus(String responseStatus) {
+        this.responseStatus = responseStatus;
+    }
 }

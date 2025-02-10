@@ -1,15 +1,18 @@
 package com.courier.dto;
 
+import com.courier.pojos.Users;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
-public class LoginResponseDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProfileDto {
 	private String status;
-	private String token;
+	private Users user;
 
 }
