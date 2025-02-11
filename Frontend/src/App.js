@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Route, Routes } from 'react-router-dom'
 import ContactUs from './components/FooterContent/ContactUs'
 import Profile from './WarehousePages/Profile'
-import ManageDeliveries from './WarehousePages/manageDelivery'
+import ManageDeliveries from './WarehousePages/ManageDelivery'
 import ParcelOrderForm from './CustomerPages/PlaceOrder'
 import CustomerCalPrice from './CustomerPages/price'
 import CustomerTrackParcle from './CustomerPages/tracking'
@@ -30,6 +30,8 @@ import EditWarehouse from './AdminPages/EditWarehouse';
 import RegisterDeliveryAgent from './WarehousePages/Register';
 import Home from './components/Home';
 import DeliveryAgents from './WarehousePages/DeliveryAgents';
+import CustomerOrders from './CustomerPages/orders';
+import FeedbackPage from './CustomerPages/FeedbackPage';
 
 function App() {
   
@@ -58,6 +60,9 @@ function App() {
         <Route path='customer/price-cal' element={<CustomerCalPrice />} />
         <Route path='customer/profile' element={<CustomerProfile />} />
         <Route path='customer/home' element={<CustomerDashboard />} />
+        <Route path='customer/order-history' element={<CustomerOrders />} />
+        <Route path='customer/review/:orderId' element={<FeedbackPage />} />
+
 
         {/* Admin Routes */}
         <Route path='admin/home' element={<AdminDashboard />} />
