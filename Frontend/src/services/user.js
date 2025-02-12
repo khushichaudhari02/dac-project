@@ -14,12 +14,7 @@ export async function login(email, password) {
     }
 
     // call the API
-    const response = await axios.post(url, body, {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await axios.post(url, body);
 
     // get the response body
     return response
@@ -154,7 +149,7 @@ export async function placeOrder(orderData) {
     console.log("Sending order data:", orderData);
     const token = sessionStorage['token']
 
-    if (!orderData.senderId || !orderData.fromWarehouseId || !orderData.toWarehouseId) {
+    if (!orderData.senderId || !orderData.fromWarehouse || !orderData.toWarehouse) {
       return { status: 'error', error: "Missing required order fields" };
     }
 

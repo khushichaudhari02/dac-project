@@ -3,10 +3,11 @@ import axios from 'axios';
 import {  Button, Container } from 'react-bootstrap';
 import { createUrl } from '../utils';
 import CustomerNavbar from '../components/NavBars/customerNavbar';
+import { useNavigate } from 'react-router-dom';
 
 const CustomerOrders = () => {
   const [orders, setOrders] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetch the data from the API when the component mounts
     const id =sessionStorage['userId']
@@ -26,9 +27,8 @@ const CustomerOrders = () => {
       });
   }, []);
 
-  const handleViewDetails = (orderId) => {
-    console.log(`View details for order ID ${orderId}`);
-    // Add your logic to fire a request to the backend with the order ID
+  const handleFeedback = (orderId) => {
+    navigate(`/customer/feedback/${orderId}`)
   };
 
   return (
@@ -48,7 +48,6 @@ const CustomerOrders = () => {
             <th>Weight</th>
             <th>Price</th>
             <th>Status</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -63,9 +62,6 @@ const CustomerOrders = () => {
               <td>{order.weight}</td>
               <td>{order.price}</td>
               <td>{order.status}</td>
-              <td>
-                <Button variant="info" onClick={() => handleViewDetails(order.orderId)}>Details</Button>
-              </td>
             </tr>
           ))}
         </tbody>

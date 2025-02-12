@@ -48,7 +48,7 @@ const AllOrders = () => {
             <th>Weight</th>
             <th>Price</th>
             <th>Status</th>
-            <th>Actions</th>
+            {/* <th>Actions</th> */}
           </tr>
         </thead>
         <tbody>
@@ -63,9 +63,9 @@ const AllOrders = () => {
               <td>{order.weight}</td>
               <td>{order.price}</td>
               <td>{order.status}</td>
-              <td>
+              {/* <td>
                 <Button variant="info" onClick={() => handleViewDetails(order.orderId)}>Details</Button>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

@@ -17,10 +17,10 @@ function Navbar() {
     <div>
       <nav className="navbar navbar-expand-lg navbar-light custom-navbar" data-bs-theme='dark'>
         <div className="container-fluid">
-          <Link className="navbar-brand d-flex align-items-center" to="/home">
+          <div className="navbar-brand d-flex align-items-center" >
             <img src={logo} alt="Logo" style={{ height: '70px', marginRight: '10px' }} />
             <span className="fw-bold brand-text">ParcelPilot</span>
-          </Link> 
+          </div> 
 
           <button
             className='navbar-toggler'
@@ -37,7 +37,7 @@ function Navbar() {
           <div className='collapse navbar-collapse' id='navbarSupportedContent'>
             <ul className='navbar-nav ms-auto mb-2 mb-lg-0' style={{ fontSize: '21px' }}>
               <li className='nav-item'>
-                <Link to='/home' className='nav-link nav-dark-blue'>
+                <Link to='/' className='nav-link nav-dark-blue'>
                   Home
                 </Link>
               </li>

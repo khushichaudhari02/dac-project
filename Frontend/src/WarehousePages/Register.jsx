@@ -50,7 +50,7 @@ function RegisterDeliveryAgent() {
     } else {
       const result = await registerDelivery(firstName, lastName, email, phone, password, address);
       if (result.status === 'success') {
-        toast.success('Successfully registered user');
+        toast.success('Successfully Registered Delivery Agent');
         navigate('/warehouse/delivery-agent');
       } else {
         toast.error(result.error);

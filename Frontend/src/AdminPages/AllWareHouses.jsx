@@ -31,10 +31,6 @@ const AllWareHouses = () => {
     navigate(`/admin/editwarehouse/${id}`)
   };
 
-  const handleDelete = (id) => {
-    console.log(`Delete warehouse with ID ${id}`);
-    // Add your delete logic here
-  };
 
   return (
     <div>
@@ -57,9 +53,7 @@ const AllWareHouses = () => {
                 <td>{warehouse.managerName}</td>
                 <td>{warehouse.location.flatNo},{warehouse.location.streetName},{warehouse.location.landmark},{warehouse.location.city},{warehouse.location.state},{warehouse.location.pincode}</td>
                 <td>
-                  <button className="btn btn-warning mr-2" onClick={() => handleEdit(warehouse.id)}>Edit</button>
-                  {/* <button className="btn ms-2 btn-danger" onClick={() => handleDelete(warehouse.id)}>Delete</button> */}
-                </td>
+                  <button className="btn btn-warning mr-2" onClick={() => handleEdit(warehouse.id)}>Edit</button>                </td>
               </tr>
             ))}
           </tbody>

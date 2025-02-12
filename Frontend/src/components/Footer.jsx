@@ -9,7 +9,7 @@ function Footer() {
     <footer className="footer bg-light text-dark py-3">
       <div className="container text-center">
         <nav className="mb-3">
-          <Link to="/home" className="text-dark mx-2">Home</Link>
+          <Link to="/" className="text-dark mx-2">Home</Link>
           <Link to="/aboutUs" className="text-dark mx-2">About Us</Link>
           <Link to="/contactUs" className="text-dark mx-2">Contact Us</Link>
         </nav>

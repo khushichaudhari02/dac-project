@@ -18,7 +18,7 @@ function CustomerNavbar() {
       <nav className="navbar navbar-expand-lg navbar-light custom-navbar  " data-bs-theme='dark'>
       <div className="container-fluid">
           
-          <Link className="navbar-brand d-flex align-items-center" to="/home">
+          <Link className="navbar-brand d-flex align-items-center" >
             <img src={logo} alt="Logo" style={{ height: '70px', marginRight: '10px' }} />
             <span className="fw-bold brand-text" style={{ fontSize: '30px' }}>ParcelPilot</span>
           </Link> 
@@ -64,7 +64,7 @@ function CustomerNavbar() {
                 </Link>
               </li>
               <li className='nav-item'>
-                <Link to='/customer/history' className='nav-link nav-dark-blue'>
+                <Link to='/customer/order-history' className='nav-link nav-dark-blue'>
                    History
                 </Link>
               </li>

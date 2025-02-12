@@ -59,7 +59,7 @@ function DeliveryDashboard() {
                 <td>{order.senderId.firstName}</td>
                 <td>{order.receiverName}</td>
                 <td>{order.contactNumber}</td>
-                <td>{order.toWarehouse.location.city}</td>
+                <td>{order.receiverAddress.flatNo},{order.receiverAddress.streetName},{order.receiverAddress.landmark},{order.receiverAddress.city},{order.receiverAddress.state},{order.receiverAddress.pincode}</td>
                 <td>
                   <button
                     className="btn btn-success"

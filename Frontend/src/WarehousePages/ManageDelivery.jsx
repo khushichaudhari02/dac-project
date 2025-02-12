@@ -140,9 +140,14 @@ function ManageDeliveries() {
           </thead>
           <tbody>
             {deliveries.map((delivery) => (
-              <tr key={delivery.id}>
-                <td>{delivery.orderId?.id || 'N/A'}</td>
-                <td>{delivery.fromId.location.city}</td>
+              <tr key={delivery.orderId.id}>
+                <td>{delivery.orderId.id }</td>
+                <td>
+                  {delivery.fromId.location.city === delivery.toId.location.city 
+                  ? `${delivery.fromId.location.city} (user)` 
+                  : delivery.fromId.location.city}
+                  </td>
+
                 <td>{delivery.toId.location.city}</td>
                 <td>
                   {selectedTab === 'arrival' ? (

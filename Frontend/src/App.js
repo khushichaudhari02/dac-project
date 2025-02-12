@@ -40,7 +40,6 @@ function App() {
       <Routes>
        
         <Route path='/' element={<Home />} />
-        <Route path='/home' element={<Home />} />
         <Route path='login' element={<Login/>} />
         <Route path='ContactUs' element={<ContactUs />} />
         <Route path='pricing' element={<PricingPage />} />
@@ -60,6 +59,7 @@ function App() {
         <Route path='customer/profile' element={<CustomerProfile />} />
         <Route path='customer/home' element={<CustomerDashboard />} />
         <Route path='customer/order-history' element={<CustomerOrders />} />
+
 
         {/* Admin Routes */}
         <Route path='admin/home' element={<AdminDashboard />} />
