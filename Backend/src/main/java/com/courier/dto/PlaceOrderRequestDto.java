@@ -14,12 +14,14 @@ public class PlaceOrderRequestDto {
     private String receiverName;
     private String contactNumber;
     private double weight;
-    private Long fromWarehouseId; 
-    private Long toWarehouseId;   
+    private String fromWarehouse; 
+    private String toWarehouse;   
     private double price;
-    public Object getFromWarehouseName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private String flatNo;
+	private String streetName;
+	private String landmark;
+	private String city;
+	private String state;
+	private int pincode;
 	
 }

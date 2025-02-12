@@ -1,5 +1,7 @@
 package com.courier.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +12,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApiResponse {
-	private String status;
-	private Object data;
+	private LocalDateTime timeStamp;
+	private String message;
+	public ApiResponse(String message) {
+		super();
+		this.message = message;
+		this.timeStamp=LocalDateTime.now();
+	}
 	
-
 }

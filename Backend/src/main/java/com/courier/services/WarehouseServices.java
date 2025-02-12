@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.courier.dto.WarehouseDto;
+import com.courier.exceptions.ResourceNotFoundException;
 import com.courier.pojos.Address;
 import com.courier.pojos.Warehouse;
 import com.courier.repository.AddressRepository;
@@ -24,8 +25,14 @@ public class WarehouseServices {
 	private AddressRepository addressRepository;
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	
+	
 	public List<WarehouseDto> getAllWarehouses() {
         List<Warehouse> warehouses = warehouseRepository.findAll();
+        if (warehouses==null) {
+        	throw new ResourceNotFoundException("Warehouses not found" );
+        }
         List<WarehouseDto> warehousesDto=warehouses.stream()
                 .map(warehouse -> modelMapper.map(warehouse, WarehouseDto.class)) 
                 .collect(Collectors.toList());
@@ -37,12 +44,11 @@ public class WarehouseServices {
     }
 
 	public Warehouse getWarehouse(Long id) {
-		
-		return warehouseRepository.findById(id).orElseThrow();
+		return warehouseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Warehouse not found with id "+id ));
 	}
 
 	public Warehouse updateWarehouse(Long id, Address address) {
-		Warehouse warehouse = warehouseRepository.findById(id).orElseThrow();
+		Warehouse warehouse = warehouseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id "+id ));
 		addressRepository.save(address);
 		return warehouseRepository.save(warehouse);
 	}

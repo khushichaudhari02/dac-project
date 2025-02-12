@@ -22,6 +22,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
 	List<Orders> findByStatusAndDeliveryAgentId(OrderStatus delivered, DeliveryAgents agent);
 
+	boolean existsByTrackingId(String trackingId);
+
 
 
 }

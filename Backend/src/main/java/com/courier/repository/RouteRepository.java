@@ -13,10 +13,14 @@ public interface RouteRepository extends JpaRepository<Routes, Long> {
 
 	List<Routes> findByToIdAndStatus(Warehouse warehouse, RoutesStatus placed);
 
-	Routes findRoutesByFromIdAndStatus(Warehouse warehouse, RoutesStatus notReached);
 
 	List<Routes> findByOrderId(Orders order);
 
 	List<Routes> findByFromIdInAndOrderIdIn(List<Warehouse> nextFromWarehouses, List<Orders> orderIds);
+
+
+	Routes findRoutesByFromIdAndStatusAndOrderId(Warehouse warehouse, RoutesStatus notReached, Orders orderId);
+
+
 
 }

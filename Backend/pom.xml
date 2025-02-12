@@ -13,7 +13,7 @@
 	<artifactId>Courier_Service_Management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Courier_Service_Management</name>
-	<description>Spring boot backend template with Spring Boot 3.x JDK 17</description>
+	<description>Spring boot project with Spring Boot 3.x JDK 17</description>
 	<url />
 	<licenses>
 		<license />

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.courier.dto.RoutesDto;
+import com.courier.exceptions.ResourceNotFoundException;
 import com.courier.pojos.OrderStatus;
 import com.courier.pojos.Orders;
 import com.courier.pojos.Routes;
@@ -40,18 +41,9 @@ public class RouteService {
 	 @Autowired
 	    private UserRepository userRepository;
  
-	 public List<Routes> getRoutesByWarehouseAndStatus(Long warehouseId) {
-	        Warehouse warehouse = warehouseRepository.findById(warehouseId).orElseThrow();
-	        List<Routes> placedRoute = routeRepository.findByToIdAndStatus(warehouse, RoutesStatus.PLACED);
-	        List<Routes> acceptRoute = routeRepository.findByToIdAndStatus(warehouse, RoutesStatus.ACCEPTED);
-	        if (placedRoute.isEmpty()) {
-	            return acceptRoute;
-	        }
-	        return placedRoute;
-	    }
 
 	    public Routes acceptOrder(Long routeId) {
-	        Routes route = routeRepository.findById(routeId).orElseThrow();
+	        Routes route = routeRepository.findById(routeId).orElseThrow(()->new ResourceNotFoundException("Route not found"));
 	        Orders order= ordersRepository.findById(route.getOrderId().getId()).orElseThrow();
 	        order.setStatus(OrderStatus.IN_TRANSIT);
 	        if(order.getToWarehouse().getId()==route.getToId().getId()) {
@@ -65,37 +57,32 @@ public class RouteService {
 	    }
 	    
 	    public Routes forwardOrder(Long routeId) {
-	        Routes route = routeRepository.findById(routeId).orElseThrow();
+	        Routes route = routeRepository.findById(routeId).orElseThrow(()->new ResourceNotFoundException("Route not found"));
 	        
 	        if (route.getStatus() != RoutesStatus.ACCEPTED) {
-	            throw new IllegalStateException("The order cannot be forwarded unless its status is ACCEPTED.");
+	            throw new RuntimeException("The order cannot be forwarded unless its status is ACCEPTED.");
 	        }
 	        
 	        route.setStatus(RoutesStatus.FORWARDED);
 	        route.setDispatchDate(LocalDateTime.now());
 	        routeRepository.save(route);
 	        Long toId = route.getToId().getId();
-	        Warehouse warehouse = warehouseRepository.findById(toId).orElseThrow();
-	        Routes routeToID = routeRepository.findRoutesByFromIdAndStatus(warehouse, RoutesStatus.NOT_REACHED);
+	        Warehouse warehouse = warehouseRepository.findById(toId).orElseThrow(()->new ResourceNotFoundException(" Warehouse not found"));
+	        Routes routeToID = routeRepository.findRoutesByFromIdAndStatusAndOrderId(warehouse, RoutesStatus.NOT_REACHED,route.getOrderId());
 	        routeToID.setStatus(RoutesStatus.PLACED);
 	        return routeRepository.save(route);
 	    }
 	    
 
 	    public Warehouse getWarehouseByUserId(Long userId) {
-	        Users manager = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+	        Users manager = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Manager not found"));
 	        return warehouseRepository.findByManager(manager);
 	    }
 
-//	    public List<Routes> getRoutesByWarehouseAndStatus(Long warehouseId, RoutesStatus status) {
-//	        Warehouse warehouse = warehouseRepository.findById(warehouseId).orElseThrow();
-//	        
-//	        return routeRepository.findByToIdAndStatus(warehouse, status);
-//	       
-//	    }
+
 	    public List<Routes> getRoutesByWarehouseAndStatus(Long warehouseId, RoutesStatus status) {
 	        Warehouse warehouse = warehouseRepository.findById(warehouseId)
-	                .orElseThrow(() -> new RuntimeException("Warehouse not found with id: " + warehouseId));
+	                .orElseThrow(() -> new ResourceNotFoundException("Warehouse not found with id "+warehouseId ));
 
 	        if (status != RoutesStatus.ACCEPTED) {
 	            // Return routes where toId matches warehouse and status is ACCEPTED
@@ -155,15 +142,11 @@ public class RouteService {
 	    }
 
 
-
-
-
-		public List<Routes> trackOrder1(String trackingId) {
-			Orders order = ordersRepository.findByTrackingId(trackingId);
-			return routeRepository.findByOrderId(order);
-		}
-
 		public List<RoutesDto> trackOrder(String trackingId) {
+			if(!ordersRepository.existsByTrackingId(trackingId)){
+				
+				throw new ResourceNotFoundException("Invalid Tracking ID");
+			}
 			Orders order = ordersRepository.findByTrackingId(trackingId);
 			List<Routes> routes=routeRepository.findByOrderId(order);
 			List<RoutesDto> routesDto = new ArrayList<>(); 

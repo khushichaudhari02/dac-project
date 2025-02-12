@@ -42,7 +42,6 @@ public class OrderController {
     public ResponseEntity<?> placeOrder(@RequestBody PlaceOrderRequestDto requestDto) {
  
             PlaceOrderResponseDto response = orderService.placeOrder(requestDto);
-            System.out.println("controller "+response);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
        
     }

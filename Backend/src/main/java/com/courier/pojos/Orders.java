@@ -1,6 +1,5 @@
 package com.courier.pojos;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -12,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +29,7 @@ import lombok.ToString;
 public class Orders {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
 	
 	@Column(name="Order_Date")
 	private Date orderDate;
@@ -49,7 +49,11 @@ public class Orders {
 	@Column(name="Contact_Number")
 	private String contactNumber;
 	
+	@OneToOne
+	private Address receiverAddress;
+	
 	private double weight;
+	
 	@ManyToOne
 	private Warehouse toWarehouse;
 	@ManyToOne

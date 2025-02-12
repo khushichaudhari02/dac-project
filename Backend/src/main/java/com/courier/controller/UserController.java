@@ -36,10 +36,8 @@ public class UserController {
 	@PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDto userDto) {
 		System.out.println(userDto);
-        Users registeredUser = userService.registerUser(userDto);
-        if (registeredUser==null) {
-        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RegisterResponseDto("failed"));
-        }
+        userService.registerUser(userDto);
+        
       
         return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponseDto("success"));
     }
@@ -47,10 +45,8 @@ public class UserController {
     public ResponseEntity<?> registerDelivery(@RequestBody RegisterRequestDto userDto) {
 		System.out.println(userDto);
 		
-		 DeliveryAgents registeredUser = userService.registerDeliveryAgent(userDto);
-		   if (registeredUser==null) {
-	        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RegisterResponseDto("failed"));
-	        }
+		 userService.registerDeliveryAgent(userDto);
+		 
 	      
 	        return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponseDto("success"));
 	    }

@@ -25,10 +25,7 @@ public class RouteController {
 	
 	@Autowired 
 	private RouteService routeService;
-	@GetMapping("/routes/byWarehouse/{warehouseId}")
-    public List<Routes> getRoutesByWarehouseAndStatus(@PathVariable Long warehouseId) {
-        return routeService.getRoutesByWarehouseAndStatus(warehouseId);
-    }
+
 	 @PostMapping("/routes/acceptOrder/{routeId}")
 	    public ResponseEntity<Routes> acceptOrder(@PathVariable Long routeId) {
 	        Routes updatedRoute = routeService.acceptOrder(routeId);
@@ -41,11 +38,8 @@ public class RouteController {
 	        return ResponseEntity.ok(updatedRoute);
 	    }
 
-//	 new code
 	 @GetMapping("/routes/byWarehouse/status")
 	    public ResponseEntity<?> getRoutesByStatus(@RequestParam Long userId, @RequestParam RoutesStatus status) {
-		 System.out.println(userId+" "+status);
-		System.out.println("hello");
 	        Warehouse warehouse = routeService.getWarehouseByUserId(userId);
 	        return ResponseEntity.ok(routeService.getRoutesByWarehouseAndStatus(warehouse.getId(), status));
 	    }

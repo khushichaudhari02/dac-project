@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -30,6 +31,8 @@ public class SecurityConfig {
 	private UserDetailsService userDetailsService;
 	@Autowired
 	private JwtFilter jwtFilter;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf(customizer -> customizer.disable())
@@ -54,7 +57,7 @@ public class SecurityConfig {
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
-		dao.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+		dao.setPasswordEncoder(passwordEncoder);
 		dao.setUserDetailsService(userDetailsService);
 		return dao;
 	}

@@ -22,7 +22,7 @@ import lombok.ToString;
 public class DeliveryAgents {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
 	@OneToOne
 	private Users user;
 	@ManyToOne

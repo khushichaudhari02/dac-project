@@ -1,4 +1,4 @@
-package com.courier.services;
+package com.courier.pojos;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,10 +7,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-import org.springframework.stereotype.Service;
-@Service
+import org.springframework.stereotype.Component;
+
+import lombok.Getter;
+import lombok.Setter;
+
+
+@Getter
+@Setter
+@Component
 public class Graph {
     private Map<String, Map<String, Integer>> graph;
+    
+    private Map<String,Long> warehouseNameToId = Map.of(
+             "Delhi",3L,
+             "Pune",5L, 
+             "Hyderabad",4L, 
+             "Chennai", 2L,
+             "Mumbai",1L
+        );
 
     public Graph() {
         this.graph = new HashMap<>();
@@ -119,3 +134,4 @@ public class Graph {
     }
     
 }
+
