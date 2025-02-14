@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AdminNavbar from '../components/NavBars/AdminNavbar';
 import { createUrl } from '../utils';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AllWareHouses = () => {
   const [warehouses, setWarehouses] = useState([]);

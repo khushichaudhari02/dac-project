@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Button, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import AdminNavbar from '../components/NavBars/AdminNavbar';
 
 import { createUrl } from '../utils';
@@ -26,10 +26,6 @@ const AllOrders = () => {
       });
   }, []);
 
-  const handleViewDetails = (orderId) => {
-    console.log(`View details for order ID ${orderId}`);
-    // Add your logic to fire a request to the backend with the order ID
-  };
 
   return (
     <div>
@@ -48,7 +44,6 @@ const AllOrders = () => {
             <th>Weight</th>
             <th>Price</th>
             <th>Status</th>
-            {/* <th>Actions</th> */}
           </tr>
         </thead>
         <tbody>
@@ -63,9 +58,7 @@ const AllOrders = () => {
               <td>{order.weight}</td>
               <td>{order.price}</td>
               <td>{order.status}</td>
-              {/* <td>
-                <Button variant="info" onClick={() => handleViewDetails(order.orderId)}>Details</Button>
-              </td> */}
+          
             </tr>
           ))}
         </tbody>

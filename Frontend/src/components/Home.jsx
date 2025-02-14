@@ -1,5 +1,5 @@
 import Navbar from '../components/NavBars/Navbar';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import bgImg from '../assets/image/bgImg.png';
 import { createUrl } from '../utils';
 import axios from 'axios';

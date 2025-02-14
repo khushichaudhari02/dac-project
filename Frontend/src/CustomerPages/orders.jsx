@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {  Button, Container } from 'react-bootstrap';
+import {  Container } from 'react-bootstrap';
 import { createUrl } from '../utils';
 import CustomerNavbar from '../components/NavBars/customerNavbar';
-import { useNavigate } from 'react-router-dom';
 
 const CustomerOrders = () => {
   const [orders, setOrders] = useState([]);
-  const navigate = useNavigate();
   useEffect(() => {
     // Fetch the data from the API when the component mounts
     const id =sessionStorage['userId']
@@ -27,9 +25,7 @@ const CustomerOrders = () => {
       });
   }, []);
 
-  const handleFeedback = (orderId) => {
-    navigate(`/customer/feedback/${orderId}`)
-  };
+
 
   return (
     <div>

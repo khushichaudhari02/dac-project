@@ -1,7 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/image/logo.png';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 function CustomerNavbar() {
+  const user = sessionStorage["userId"];
   const navigate = useNavigate()
 
 
@@ -12,6 +15,13 @@ function CustomerNavbar() {
     // redirect to login page
     navigate('/login')
   }
+
+    useEffect(()=>{
+      if(user==null){
+        toast.error("Please login")
+        navigate("/login")
+      }
+    },[])
 
   return (
     <div>

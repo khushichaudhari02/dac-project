@@ -1,8 +1,12 @@
 // import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/image/logo.png';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 function WarehouseNavbar() {
+  const user = sessionStorage["userId"];
+
   const navigate = useNavigate()
 
    const onLogout = () => {
@@ -12,7 +16,12 @@ function WarehouseNavbar() {
     // redirect to login page
     navigate('/login')
   }
-
+  useEffect(()=>{
+    if(user==null){
+      toast.error("Please login")
+      navigate("/login")
+    }
+  },[])
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light custom-navbar  " data-bs-theme='dark'>

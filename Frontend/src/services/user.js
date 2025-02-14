@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { createUrl } from '../utils'
-import { fireEvent } from '@testing-library/react'
 
 export async function login(email, password) {
   try {

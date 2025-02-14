@@ -16,7 +16,7 @@ function Profile() {
     pincode: ''
   });
 
-  const { id ,flatNo, streetName, landmark, city, state, pincode } = address;
+  const { flatNo, streetName, landmark, city, state, pincode } = address;
 
   const onLoadProfile = async () => {
     const result = await getMyProfile();

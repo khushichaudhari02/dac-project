@@ -1,6 +1,6 @@
 import Login from './components/Login'
 import Register from './components/Register'
-import { toast, ToastContainer } from 'react-toastify';
+import {  ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import { Route, Routes } from 'react-router-dom'
 import ContactUs from './components/FooterContent/ContactUs'
@@ -22,9 +22,7 @@ import Footer from './components/Footer'
 import AboutUs from './components/FooterContent/Aboutus'
 import PricingPage from './Pricing/pricing'
 import TrackingPage from './CustomerPages/tracking'
-import AdminDashboard from './AdminPages/AdminDashboard'
 import CustomerDashboard from './CustomerPages/CustomerDashboard'
-// import CardComponent from './components/commonComponent/MainCardComponent'
 
 import EditWarehouse from './AdminPages/EditWarehouse';
 import RegisterDeliveryAgent from './WarehousePages/Register';
@@ -62,7 +60,6 @@ function App() {
 
 
         {/* Admin Routes */}
-        <Route path='admin/home' element={<AdminDashboard />} />
         <Route path='admin/orders' element={<AllOrders />} />
         <Route path='admin/warehouses' element={<AllWareHouses />} />
         <Route path='admin/track-order' element={<AdminTrackParcle />} />

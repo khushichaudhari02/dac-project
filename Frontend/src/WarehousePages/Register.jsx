@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { register, registerDelivery } from '../services/user';
-import { Link, useNavigate } from 'react-router-dom';
+import { registerDelivery } from '../services/user';
+import { useNavigate } from 'react-router-dom';
 import WarehouseNavbar from '../components/NavBars/WarehouseNavbar';
 
 function RegisterDeliveryAgent() {

@@ -1,14 +1,24 @@
 // import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/image/logo.png';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 function AdminNavbar() {
+  const user = sessionStorage["userId"];
   const navigate = useNavigate()
 
   // // get wishlist item count
   // const wishlistItemCount = useSelector((store) => {
   //   return store.wishlist.itemCount
   // })
+
+  useEffect(()=>{
+    if(user==null){
+      toast.error("Please login")
+      navigate("/login")
+    }
+  },[])
 
   const onLogout = () => {
     // remove the token
